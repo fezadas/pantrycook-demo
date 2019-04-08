@@ -9,6 +9,10 @@ app.set('views', './server/public/views')
 app.use(express.static("public"));
 
 
+app.get('/',function(req, res) {
+    res.redirect('/home');
+})
+
 // viewed at http://localhost:8080
 app.get('/pantry', function(req, res) {
 
