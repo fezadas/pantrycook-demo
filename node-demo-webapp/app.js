@@ -9,9 +9,6 @@ app.set('views', './server/public/views')
 app.use(express.static("public"));
 
 
-app.get('/',function(req, res) {
-    res.redirect('/home');
-})
 
 // viewed at http://localhost:8080
 app.get('/pantry', function(req, res) {
@@ -92,7 +89,7 @@ app.get('/contact',function(req, res){
     res.render(path.join(__dirname +  '/public/views/contact.hbs'));
 })
 
-app.get('/home',function(req, res){
+app.get('/',function(req, res){
 
     var info = {
         card:[
