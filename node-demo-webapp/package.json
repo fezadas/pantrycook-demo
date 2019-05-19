@@ -1,48 +1,40 @@
 {
-    "title": "Heroic Features",
-    "name": "startbootstrap-heroic-features",
-    "version": "4.1.2",
-    "description": "An HTML template with a hero heading and feature cards built with Bootstrap",
-    "keywords": [
-        "css",
-        "sass",
-        "html",
-        "responsive",
-        "theme",
-        "template",
-        "heroku"
-    ],
-    "homepage": "https://startbootstrap.com/template-overviews/heroic-features",
-    "bugs": {
-        "url": "https://github.com/BlackrockDigital/startbootstrap-heroic-features/issues",
-        "email": "feedback@startbootstrap.com"
-    },
-    "license": "MIT",
-    "author": "Start Bootstrap",
-    "contributors": [
-        "David Miller (http://davidmiller.io/)"
-    ],
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/fezadas/ps-2018-19.git"
-    },
-    "dependencies": {
-        "bootstrap": "4.2.1",
-        "express": "^4.16.4",
-        "hbs": "^4.0.3",
-        "jquery": "3.3.1",
-        "path": "^0.12.7"
-    },
-    "devDependencies": {
-        "browser-sync": "2.26.3",
-        "gulp": "4.0.0"
-    },
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "start": "node app.js"
-      },
-    "engines": {
-        "node":"v8.9.4"
-    },
-    "main": "app.js"
+  "name": "pantrycook",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "connected-react-router": "^6.4.0",
+    "history": "^4.9.0",
+    "query-string": "^6.5.0",
+    "react": "^16.8.6",
+    "react-autosuggest": "^9.4.3",
+    "react-bootstrap": "^1.0.0-beta.8",
+    "react-dom": "^16.8.6",
+    "react-redux": "^7.0.2",
+    "react-router-dom": "^5.0.0",
+    "react-router-redux": "^4.0.8",
+    "react-scripts": "2.1.8",
+    "redux": "^4.0.1",
+    "redux-thunk": "^2.3.0",
+    "throttle-debounce": "^2.1.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ],
+  "devDependencies": {
+    "css-loader": "^2.1.1",
+    "style-loader": "^0.23.1"
+  }
 }
