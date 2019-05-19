@@ -16,7 +16,7 @@ class PantryRecipeList extends React.Component {
 
     constructor(props) {
         super(props)
-        this.state = { pageLimit: 2, query: null, //query without page
+        this.state = { pageLimit: 3, query: null, //query without page
             searchIngs: [], searchCat: null } 
     }
 

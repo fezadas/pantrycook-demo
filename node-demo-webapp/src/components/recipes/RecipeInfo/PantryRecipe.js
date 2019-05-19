@@ -56,7 +56,10 @@ class PantryRecipe extends React.Component {
     }
 
     render() {
+       
         const { loading, res, error, shoppingListState, pantryState } = this.props
+        console.log(shoppingListState)
+        console.log(res)
         const ownedIngredientsPercentage = res 
             ? (res.numOwnedIngredients / res.ingredients.length) * 100
             : null

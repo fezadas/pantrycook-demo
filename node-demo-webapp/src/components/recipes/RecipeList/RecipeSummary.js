@@ -9,20 +9,22 @@ const RecipeSummary = ({recipe}) => {
   const auth = localStorage.getItem('access_token')
     return ( 
       <div className="col-sm">
-        <div className="card text-center" style={card.size}>
+        <div className="card text-center" style={card.recipe_size}>
           <img className="card-img-top" src={recipe.pictureUrl} key={recipe.id} style={image.centered_2} alt="Card image cap"/>
           <div className="card-body">
-            <h5 className="card-title">
+            <h6 className="card-title">
               <Link to={`/recipes/${recipe.id}`} key={recipe.id}>
                 {recipe.name}
               </Link>
               <div>{auth && recipe.pantryIngredientsPercentage >= 0 && 
-                <p>Owned ingredients: {recipe.pantryIngredientsPercentage}%</p>}</div>
-            </h5>
+              <span class="badge badge-primary">Owned ingredients: {recipe.pantryIngredientsPercentage}%</span>
+              }</div>
+            </h6>
             <h6 className="card-subtitle mb-2 text-muted">
+            <div className="dropdown-divider"/>
               {recipe.categories &&
                 recipe.categories.map(r => {
-                  return <p key={r}>{r}</p>
+                  return <div><span class="badge badge-secondary" key={r}>{r}</span><span> </span></div>
                 })
               }
             </h6>

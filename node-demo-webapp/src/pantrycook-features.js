@@ -238,8 +238,13 @@ const style = {
         },
         display : {
             display: 'inline'
+        },
+        recipe_size : {
+            width: '21.5rem',
+            height:'21.5rem'
         }
-    }
+    },
+    
 }
 
 export default style
