@@ -10,7 +10,6 @@ const initState = {
 }
 
 const recipesReducer = (state = initState, action) => {
-    console.log(action.type)
     switch(action.type) {
         
         case FETCH_RANDOM_BEGIN:

@@ -1,5 +1,8 @@
 import React from 'react'
 import RecipeList from './recipes/RecipeList/RecipeList';
+import Style from '../pantrycook-features'
+
+const position = Style.position
 
 const Home = () => {
     return (
@@ -28,8 +31,11 @@ const Home = () => {
                 </div>
             <div className="dropdown-divider"/>
             <div className="container">
-        <RecipeList/>
-        </div>
+            <div style={position.centered}>
+                <RecipeList/>
+            </div>
+            
+            </div>
         </div>
     )
 }

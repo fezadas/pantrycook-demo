@@ -45,7 +45,6 @@ class ShoppingList extends React.Component {
 
     render() {
         const { loading, shoppingList, error } = this.props
-        console.log(error)
         if(error)
             if(error.statusCode == UNAUTHORIZED){
                 return (

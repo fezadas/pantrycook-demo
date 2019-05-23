@@ -35,7 +35,7 @@ class ShoppingLists extends React.Component {
     render() {
         const {shoppingLists,error,loading} = this.props
         const name = this.state ? this.state.name : ''
-
+        console.log(error)
         if(error)
             if(error.statusCode == UNAUTHORIZED){
               return (
@@ -66,7 +66,7 @@ class ShoppingLists extends React.Component {
                         <form autoComplete="off" className="form-inline" onSubmit={this.handleSubmit.bind(this)}>
                             <div className="form-group mx-sm-3 mb-2">
                                 <label className="sr-only">ShoppingList Name</label>
-                                <input name="name" value={name} onChange={this.handleChange.bind(this)} className="form-control" type="text" required="required"  placeholder="Name"></input>
+                                <input name="name" required="required" value={name} onChange={this.handleChange.bind(this)} className="form-control" type="text"  placeholder="Name"></input>
                             </div>
                             <button type="submit" className="btn btn-primary mb-2">Create List</button>
                         </form>

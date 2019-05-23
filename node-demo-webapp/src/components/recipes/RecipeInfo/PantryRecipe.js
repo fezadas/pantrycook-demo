@@ -35,9 +35,9 @@ class PantryRecipe extends React.Component {
     }
 
     createShoppingList(ingredients) {
-        let id = this.props.shoppingListState.createdId
+        /*let id = this.props.shoppingListState.createdId
         if(id)
-            return this.props.navigateToShoppingList(id)
+            return this.props.navigateToShoppingList(id)*/
 
         let shoppingList = {
             'Name': `'${this.props.res.name}'`,
@@ -53,12 +53,13 @@ class PantryRecipe extends React.Component {
         this.props.createShoppingList(
             shoppingList, 
             (id) => this.props.navigateToShoppingList(id))
+        
     }
 
     render() {
-       
+         
         const { loading, res, error, shoppingListState, pantryState } = this.props
-        console.log(shoppingListState)
+        console.log('this.props.res')
         console.log(res)
         const ownedIngredientsPercentage = res 
             ? (res.numOwnedIngredients / res.ingredients.length) * 100

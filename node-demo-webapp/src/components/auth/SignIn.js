@@ -22,7 +22,6 @@ class SignIn extends Component {
     }
 
     render() { //mostrar spinner no loading !
-        console.log(this.props)
         const { loading, auth, authError } = this.props
         if(auth)
             return <Redirect to='/'></Redirect>

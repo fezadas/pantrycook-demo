@@ -9,7 +9,7 @@ const RecipeSummary = ({recipe}) => {
   const auth = localStorage.getItem('access_token')
     return ( 
       <div className="col-sm">
-        <div className="card text-center" style={card.recipe_size}>
+        <div className="card text-center" >
           <img className="card-img-top" src={recipe.pictureUrl} key={recipe.id} style={image.centered_2} alt="Card image cap"/>
           <div className="card-body">
             <h6 className="card-title">

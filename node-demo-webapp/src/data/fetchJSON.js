@@ -1,6 +1,8 @@
+
+
 async function fetchJSON(url, options = { method: 'GET', credentials: 'same-origin' }) {
-    const resp = await fetch(url, options)
-    const body = await resp.json()
+    let resp = await fetch(url, options)
+    let body = await resp.json()
     console.log('method: '+options.method+' '+url)
     console.log('statusCode: '+resp.status)
     console.log(body)
