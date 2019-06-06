@@ -3,9 +3,6 @@ import {
     LOGIN_ERROR,
     LOGIN_SUCCESS,
     LOGOUT,
-    REFRESH_TOKEN_BEGIN,
-    REFRESH_TOKEN_FAILURE,
-    REFRESH_TOKEN_SUCCESS,
     SIGNUP_ERROR
 } from '../actions/authActions'
 
@@ -18,13 +15,7 @@ const authReducer = (state = initState, action) => {
                 ...state,
                 loading: true,
                 error: null
-            }
-        case REFRESH_TOKEN_BEGIN:
-            return {
-                ...state,
-                loading: true,
-                error: null
-        }    
+            }   
         case LOGIN_SUCCESS:
             return {
                 ...state,
@@ -33,13 +24,6 @@ const authReducer = (state = initState, action) => {
                 tokens: action.payload.tokens,
                 username: action.payload.username
             }
-        case REFRESH_TOKEN_SUCCESS:
-            return {
-                ...state,
-                loading: false,
-                error: null,
-                tokens: action.payload.tokens
-        }
         case SIGNUP_ERROR:
             return {
                 ...state,
@@ -53,14 +37,7 @@ const authReducer = (state = initState, action) => {
                 loading: false,
                 error: action.payload.error,
                 tokens: null
-        }    
-        case REFRESH_TOKEN_FAILURE:
-            return {
-                ...state,
-                loading: false,
-                error: action.payload.error,
-                tokens: null
-            }    
+        }      
         case LOGOUT:
             return {
                 ...state,

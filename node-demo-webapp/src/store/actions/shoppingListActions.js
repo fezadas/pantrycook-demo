@@ -20,106 +20,115 @@ const fetchShoppingListSuccess = shoppingList => ({
     payload: { shoppingList }  
 })
 
+export function fetchShoppingList(id, afterSuccess) {
+    return async (dispatch, getState, { PantryCookApi, storageUtils }) => {
+        dispatch(fetchBegin())
+        try {
+            const access_token = await getAccessToken(storageUtils, PantryCookApi)
+            const shoppingList = await PantryCookApi.shoppingLists.get(id, access_token)
+            dispatch(fetchShoppingListSuccess(shoppingList))
+            if(afterSuccess) afterSuccess(shoppingList)
+        }
+        catch(error) {
+            dispatch(fetchFailure(error))
+        }
+    }
+}
+
 const fetchShoppingListsSuccess = shoppingLists => ({
     type: FETCH_SHOPPING_LISTS_SUCCESS,
     payload: { shoppingLists }  
 })
+
+export function fetchShoppingLists() {
+    return async (dispatch, getState, { PantryCookApi, storageUtils }) => {
+        dispatch(fetchBegin())
+        try {
+            const access_token = await getAccessToken(storageUtils, PantryCookApi)
+            const list = await PantryCookApi.shoppingLists.getAll(access_token)
+            dispatch(fetchShoppingListsSuccess(list))
+        }
+        catch(error) {
+            dispatch(fetchFailure(error))
+        }
+    }
+}
 
 const postShoppingListSuccess = shoppingList => ({
     type: POST_SHOPPING_LIST_SUCCESS,
     payload: { shoppingList }  
 })
 
+export function createShoppingList(shoppingList, redirectToList) {
+    return async (dispatch, getState, { PantryCookApi, storageUtils }) => {
+        dispatch(fetchBegin())
+        try {
+            const access_token = await getAccessToken(storageUtils, PantryCookApi)
+            const list = await PantryCookApi.shoppingLists.post(shoppingList, access_token)
+            redirectToList(list.id)
+            dispatch(postShoppingListSuccess(list))
+        }
+        catch(error) {
+            dispatch(fetchFailure(error))
+        }
+    }
+}
+
 const putShoppingListSuccess = shoppingList => ({
     type: PUT_SHOPPING_LIST_SUCCESS,
     payload: { shoppingList }  
 })
+
+export function updateShoppingList(shoppingList, afterSuccess) {
+    return async (dispatch, getState, { PantryCookApi, storageUtils }) => {
+        dispatch(fetchBegin())
+        try {
+            const access_token = await getAccessToken(storageUtils, PantryCookApi)
+            const list = await PantryCookApi.shoppingLists.put(shoppingList.id, shoppingList, access_token)
+            dispatch(putShoppingListSuccess(list))
+            afterSuccess()
+        }
+        catch(error) {
+            dispatch(fetchFailure(error))
+        }
+    }
+}
 
 const deleteShoppingListSuccess = shoppingList => ({
     type: DELETE_SHOPPING_LIST_SUCCESS,
     payload: { shoppingList }  
 })
 
-export function fetchShoppingList(id, afterSuccess) {
-    return (dispatch, getState, { PantryCookApi }) => {
-        dispatch(fetchBegin())
-        PantryCookApi.shoppingLists.get(id, localStorage.getItem('access_token'))
-            .then(shoppingList => {
-                dispatch(fetchShoppingListSuccess(shoppingList))
-                if(afterSuccess) afterSuccess(shoppingList)
-            })
-            .catch(error => {
-                dispatch(fetchFailure(error))
-            })
-    }
-}
-
-export function fetchShoppingLists() {
-    return (dispatch, getState, { PantryCookApi }) => {
-        dispatch(fetchBegin())
-        PantryCookApi.shoppingLists.getAll(localStorage.getItem('access_token'))
-            .then(list => {
-                dispatch(fetchShoppingListsSuccess(list))
-            })
-            .catch(error => {
-                dispatch(fetchFailure(error))
-            })
-    }
-}
-
-export function createShoppingList(shoppingList, redirectToList) {
-    return (dispatch, getState, { PantryCookApi }) => {
-        dispatch(fetchBegin())
-        PantryCookApi.shoppingLists.post(shoppingList, localStorage.getItem('access_token'))
-            .then(list => {
-                redirectToList(list.id)
-                dispatch(postShoppingListSuccess(list))
-            })
-            .catch(error => {
-                dispatch(fetchFailure(error))
-            })
-    }
-}
-
-export function updateShoppingList(shoppingList, afterSuccess) {
-    return (dispatch, getState, { PantryCookApi }) => {
-        dispatch(fetchBegin())
-        PantryCookApi.shoppingLists.put(shoppingList.id, shoppingList, localStorage.getItem('access_token'))
-            .then(list => {
-                dispatch(putShoppingListSuccess(list))
-                afterSuccess()
-            })
-            .catch(error => {
-                dispatch(fetchFailure(error))
-            })
-    }
-}
-
 export function deleteShoppingList(id, afterSuccess) {
-    return (dispatch, getState, { PantryCookApi }) => {
+    return async (dispatch, getState, { PantryCookApi, storageUtils }) => {
         dispatch(fetchBegin())
-        PantryCookApi.shoppingLists.delete(id, localStorage.getItem('access_token'))
-            .then(list => {
-                dispatch(deleteShoppingListSuccess(list))
-                afterSuccess()
-            })
-            .catch(error => {
-                dispatch(fetchFailure(error))
-            })
+        try {
+            const access_token = await getAccessToken(storageUtils, PantryCookApi)
+            const list = await PantryCookApi.shoppingLists.delete(id, access_token)
+            dispatch(deleteShoppingListSuccess(list))
+            afterSuccess()
+        }
+        catch(error) {
+            dispatch(fetchFailure(error))
+        }
     }
 }
 
 export function addShoppingListItemsToPantry(id, afterSuccess) {
-    return (dispatch, getState, { PantryCookApi }) => {
+    return async (dispatch, getState, { PantryCookApi, storageUtils }) => {
         dispatch(fetchBegin())
-        const actionObj = { 'action': 'removeAndUpdatePantry' }
-        PantryCookApi.shoppingLists.patch(id, actionObj, localStorage.getItem('access_token'))
-            .then(list => {
-                dispatch(deleteShoppingListSuccess(list))
-                afterSuccess()
-            })
-            .catch(error => {
-                dispatch(fetchFailure(error))
-            })
+        try {
+            const access_token = await getAccessToken(storageUtils, PantryCookApi)
+            const list = await PantryCookApi.shoppingLists.patch(id, { 'action': 'removeAndUpdatePantry' }, access_token)
+            dispatch(deleteShoppingListSuccess(list))
+            afterSuccess()
+        }
+        catch(error) {
+            dispatch(fetchFailure(error))
+        }
     }
+}
+
+function getAccessToken(storageUtils, PantryCookApi) {
+    return storageUtils.getAccessToken(PantryCookApi.auth.refreshToken.bind(PantryCookApi.auth))
 }

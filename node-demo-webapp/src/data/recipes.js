@@ -1,19 +1,19 @@
-import fetchJSON from './fetchJSON'
+import { fetchJSON } from './fetchJSON'
 
-const SCHEME_AUTHORITY = 'http://35.204.230.227' //http://localhost:61549'//'http://pantrycook.westeurope.cloudapp.azure.com'  
-const BASE_URL = `${SCHEME_AUTHORITY}/api` 
-const BASE_RECIPES_URL = `${BASE_URL}/recipes`
+class Recipes {
 
-const recipes = {
+    constructor(BASE_URL) {
+        this.BASE_RECIPES_URL = `${BASE_URL}/recipes` 
+    }
 
-    getRandomList: (random = null) => {
-        let uri = random ? `${BASE_RECIPES_URL}?random=${random}` : this.BASE_RECIPES_URL
+    getRandomList(random = null) {
+        let uri = random ? `${this.BASE_RECIPES_URL}?random=${random}` : this.BASE_RECIPES_URL
         return fetchJSON(uri)
-    },
+    }
     
-    get: (id) => {
-        return fetchJSON(`${BASE_RECIPES_URL}/${id}`)
+    get(id) {
+        return fetchJSON(`${this.BASE_RECIPES_URL}/${id}`)
     }
 }
 
-export default recipes
+export default Recipes

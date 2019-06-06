@@ -21,16 +21,16 @@ const fetchPantryRecipeInfoSuccess = recipeInfo => ({
 })
 
 export function fetchPantryRecipeInfo(id) {
-    return (dispatch, getState, { PantryCookApi }) => {
-        dispatch(fetchBegin())
-        const access_token = localStorage.getItem('access_token')
-        PantryCookApi.pantryRecipes.get(id, access_token)
-            .then(recipeInfo => {
-                dispatch(fetchPantryRecipeInfoSuccess(recipeInfo))
-            })
-            .catch(error => {
-                dispatch(fetchFailure(error))
-            })
+    return async (dispatch, getState, { PantryCookApi, storageUtils }) => {
+        dispatch(fetchBegin())  
+        try {
+            const access_token = await getAccessToken(storageUtils, PantryCookApi)
+            const recipeInfo = await PantryCookApi.pantryRecipes.get(id, access_token)
+            dispatch(fetchPantryRecipeInfoSuccess(recipeInfo))
+        }
+        catch(error) {
+            dispatch(fetchFailure(error))
+        }
     }
 }
 
@@ -40,30 +40,28 @@ const fetchRecipesPageSuccess = page => ({
 })
 
 export function fetchRecipesPage(page, limit, category, ingredients) {
-    return (dispatch, getState, { PantryCookApi }) => {
+    return async (dispatch, getState, { PantryCookApi, storageUtils }) => {
+
         if(ingredients)
             ingredients = ingredients.map(ing => ing.name)
 
         let query = {}
-        if(category)
-            query.category = category.name
+        if(category) query.category = category.name
         query.limit = limit
-        if(page != 1)
-            query.page = page
+        if(page != 1) query.page = page
         query.limit = limit
         query = query_string.stringify(query).replace()
         query = query.replace(/%20/g, '+')
         
-        dispatch(fetchBegin())
-        const access_token = localStorage.getItem('access_token')
-        
-        PantryCookApi.pantryRecipes.getPage(query, ingredients, access_token)
-            .then(page => {
-                dispatch(fetchRecipesPageSuccess(page))
-            })
-            .catch(error => {
-                dispatch(fetchFailure(error))
-            })
+        dispatch(fetchBegin())   
+        try {
+            const access_token = await getAccessToken(storageUtils, PantryCookApi)
+            const page = await PantryCookApi.pantryRecipes.getPage(query, ingredients, access_token)
+            dispatch(fetchRecipesPageSuccess(page))
+        }
+        catch(error) {
+            dispatch(fetchFailure(error))
+        } 
     }
 }
 
@@ -73,22 +71,24 @@ const fetchRecipesPageByUriSuccess = page => ({
 })
 
 export function fetchRecipesPageByUri(uri, ingredients, updateClientUri) {
-    return (dispatch, getState, { PantryCookApi }) => {
+    return async (dispatch, getState, { PantryCookApi, storageUtils }) => {
 
-        console.log(uri)
         if(ingredients)
             ingredients = ingredients.map(ing => ing.name)
 
         dispatch(fetchBegin())
-        const access_token = localStorage.getItem('access_token')
-        PantryCookApi.pantryRecipes.getPageByUri(uri, ingredients, access_token)
-            .then(page => {
-                dispatch(fetchRecipesPageByUriSuccess(page))
-                updateClientUri()
-            })
-            .catch(error => {
-                console.log(error)
-                dispatch(fetchFailure(error))
-            })
+        try {
+            const access_token = await getAccessToken(storageUtils, PantryCookApi)
+            const page = await PantryCookApi.pantryRecipes.getPageByUri(uri, ingredients, access_token)
+            dispatch(fetchRecipesPageByUriSuccess(page))
+            updateClientUri()
+        }
+        catch(error) {
+            dispatch(fetchFailure(error))
+        }
     } 
+}
+
+function getAccessToken(storageUtils, PantryCookApi) {
+    return storageUtils.getAccessToken(PantryCookApi.auth.refreshToken.bind(PantryCookApi.auth))
 }

@@ -28,15 +28,15 @@
   
   .react-autosuggest__suggestions-container--open {
     display: block;
-    position: absolute;
-    top: 29px;
-    width: auto;
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+    width: 175px;
     border: 1px solid #aaa;
     background-color: #fff;
     font-family: Helvetica, sans-serif;
     font-weight: 300;
     font-size: 16px;
-    left: 480px;
     z-index: 2;
   }
   
@@ -48,7 +48,7 @@
   
   .react-autosuggest__suggestion {
     cursor: pointer;
-    padding: 10px 20px;
+    padding: 5px 17px;
   }
   
   .react-autosuggest__suggestion--highlighted {

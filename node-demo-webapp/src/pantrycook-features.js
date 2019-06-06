@@ -84,6 +84,10 @@ const style = {
         bottom : {
             position:'relative',
             bottom:'280px'
+        },
+        left : {
+            position: 'absolute',
+            left: 'auto'
         }
     },
     form : {
@@ -203,6 +207,11 @@ const style = {
         size : {
             width: '400px',
             height: '350px',
+            margin: 'auto'
+        },
+        size_2 : {
+            width: '250px',
+            height: '300px',
             margin: 'auto'
         }
     },

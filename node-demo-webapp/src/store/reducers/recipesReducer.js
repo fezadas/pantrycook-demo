@@ -1,7 +1,7 @@
 import {
-    FETCH_RANDOM_BEGIN,
+    FETCH_BEGIN,
     FETCH_RANDOM_RECIPES_SUCCESS,
-    FETCH_RANDOM_ERROR,
+    FETCH_ERROR,
     FETCH_RECIPE_INFO_SUCCESS,
 } from '../actions/recipeActions'
 
@@ -12,11 +12,18 @@ const initState = {
 const recipesReducer = (state = initState, action) => {
     switch(action.type) {
         
-        case FETCH_RANDOM_BEGIN:
+        case FETCH_BEGIN:
             return {
                 ...state,
                 loading: true,
                 error: null
+            }
+        case FETCH_ERROR:
+            return {
+                ...state,
+                loading: false,
+                error: action.payload.error,
+                recipes: null
             }
         case FETCH_RANDOM_RECIPES_SUCCESS:
             return {
@@ -31,14 +38,7 @@ const recipesReducer = (state = initState, action) => {
                 loading: false,
                 error: null,
                 recipeInfo: action.payload.recipeInfo
-            }
-        case FETCH_RANDOM_ERROR:
-            return {
-                ...state,
-                loading: false,
-                error: action.payload.error,
-                recipes: null
-            }
+            }        
         default :
             return state
     }

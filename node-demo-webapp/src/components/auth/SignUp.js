@@ -3,28 +3,33 @@ import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import { signUp } from './../../store/actions/authActions'
 import Style from '../../pantrycook-features'
+import { isAuthenticated } from './../../storageUtils'
 
 const position = Style.position
 
 class SignUp extends Component {
+    
     state = {
         username: '',
         password: '',
         name: ''
     }
+
     handleChange(e) {
         this.setState({
             [e.target.id]: e.target.value
         })
     }
+
     handleSubmit(e) {
         e.preventDefault()
         this.props.signUp(this.state)
     }
+
     render() {
-        const { loading, auth, authError } = this.props
-        if(auth)
-            return <Redirect to='/'></Redirect>
+        const { loading, authError } = this.props
+        if(isAuthenticated())
+            return <Redirect to='/' />
         return (
             <div style={position.centered}>
                 <form className="form-signin" 
@@ -69,7 +74,6 @@ class SignUp extends Component {
 const mapStateToProps = (state) => {
     return {
         authError: state.auth.error,
-        auth: localStorage.getItem('access_token'),
         username: state.auth.username,
         loading:state.auth.loading,
     }

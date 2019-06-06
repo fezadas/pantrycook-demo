@@ -1,15 +1,15 @@
-export const FETCH_RANDOM_BEGIN = 'FETCH_RANDOM_BEGIN'
+export const FETCH_BEGIN = 'FETCH_RANDOM_BEGIN'
 export const FETCH_RANDOM_RECIPES_SUCCESS = 'FETCH_RANDOM_RECIPES_SUCCESS'
-export const FETCH_RANDOM_ERROR = 'FETCH_RANDOM_ERROR'
+export const FETCH_ERROR = 'FETCH_RANDOM_ERROR'
 export const FETCH_RECIPE_INFO_SUCCESS = 'FETCH_RECIPE_INFO_SUCCESS'
 export const FETCH_PANTRY_RECIPE_INFO_SUCCESS = 'FETCH_PANTRY_RECIPE_INFO_SUCCESS'
 
-const fetchRandomBegin = () => ({
-    type: FETCH_RANDOM_BEGIN
+const fetchBegin = () => ({
+    type: FETCH_BEGIN
 })
 
-const fetchRandomFailure = error => ({
-    type: FETCH_RANDOM_ERROR,
+const fetchFailure = error => ({
+    type: FETCH_ERROR,
     payload: { error }
 })
 
@@ -18,36 +18,33 @@ const fetchRandomRecipesSuccess = recipes => ({
     payload: { recipes }
 })
 
-const fetchRecipeInfoSuccess = recipeInfo => ({
-    type: FETCH_RECIPE_INFO_SUCCESS,
-    payload: { recipeInfo }
-})
-
 export function fetchRandomRecipes(randomNum) {
     return (dispatch, getState, { PantryCookApi }) => {
-        console.log('here')
-        dispatch(fetchRandomBegin())
+        dispatch(fetchBegin())
         PantryCookApi.recipes.getRandomList(randomNum)
             .then(recipes => {
                 dispatch(fetchRandomRecipesSuccess(recipes))
             })
             .catch(error => {
-                console.log(error)
-                dispatch(fetchRandomFailure(error))
+                dispatch(fetchFailure(error))
             })
     }
 }
 
+const fetchRecipeInfoSuccess = recipeInfo => ({
+    type: FETCH_RECIPE_INFO_SUCCESS,
+    payload: { recipeInfo }
+})
+
 export function fetchRecipeInfo(id) {
-    return (dispatch, getState, { PantryCookApi }) => {
-        
-        dispatch(fetchRandomBegin())
+    return (dispatch, getState, { PantryCookApi }) => {        
+        dispatch(fetchBegin())
         PantryCookApi.recipes.get(id)
             .then(recipeInfo => {
                 dispatch(fetchRecipeInfoSuccess(recipeInfo))
             })
             .catch(error => {
-                dispatch(fetchRandomFailure(error))
+                dispatch(fetchFailure(error))
             })
     }
 }

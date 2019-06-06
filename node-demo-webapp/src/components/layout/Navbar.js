@@ -2,10 +2,11 @@ import React from 'react'
 import { connect } from 'react-redux'
 import SignedInLinks from './SignedInLinks'
 import SignedOutLinks from './SignedOutLinks'
+import { isAuthenticated } from './../../storageUtils'
 
 const Navbar = (props) => {
-  const {auth,username} = props
-  const links = auth ? <SignedInLinks username={username} /> : <SignedOutLinks />
+  const { username} = props
+  const links = isAuthenticated() ? <SignedInLinks username={username} /> : <SignedOutLinks />
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
       <div className="container">
@@ -24,10 +25,8 @@ const Navbar = (props) => {
   )
 }
 
-// ?? subscriber ??
 const mapStateToProps = (state) => {
   return {
-    auth: localStorage.getItem('access_token'),
     username: localStorage.getItem('username')
   }
 }

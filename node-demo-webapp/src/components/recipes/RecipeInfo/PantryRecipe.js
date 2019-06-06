@@ -1,7 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { push } from 'connected-react-router'
-import AlertRedirect from '../../auth/AlertRedirect'
 import ErrorAlert from '../../layout/ErrorAlert'
 import { fetchPantryRecipeInfo } from '../../../store/actions/pantryRecipeActions';
 import { updatePantryIngredientsQuantity } from '../../../store/actions/pantryActions';
@@ -35,10 +34,6 @@ class PantryRecipe extends React.Component {
     }
 
     createShoppingList(ingredients) {
-        /*let id = this.props.shoppingListState.createdId
-        if(id)
-            return this.props.navigateToShoppingList(id)*/
-
         let shoppingList = {
             'Name': `'${this.props.res.name}'`,
             'Items': []
@@ -59,8 +54,6 @@ class PantryRecipe extends React.Component {
     render() {
          
         const { loading, res, error, shoppingListState, pantryState } = this.props
-        console.log('this.props.res')
-        console.log(res)
         const ownedIngredientsPercentage = res 
             ? (res.numOwnedIngredients / res.ingredients.length) * 100
             : null
@@ -70,10 +63,8 @@ class PantryRecipe extends React.Component {
             <div className="dropdown-divider"></div>
 
             {error && 
-                <div>
-                    {error.statusCode == 401 
-                        ? (<AlertRedirect/>) 
-                        : (<div style={position.centered_1}><ErrorAlert /></div>)}
+                <div style={position.centered_1}>
+                    <ErrorAlert />
                 </div>
             }
             {loading &&
@@ -110,8 +101,8 @@ class PantryRecipe extends React.Component {
                         <button onClick={this.makeRecipe.bind(this, res.ingredients)}>
                             Make recipe
                         </button>
-                        {!pantryState.loading && <p>loading...</p>}
-                        {pantryState.error && <AlertRedirect/>}
+                        {!pantryState.loading && <p>Loading...</p>}
+                        {pantryState.error && <ErrorAlert />}
                     </div>
                 ) : (
                     <div>
@@ -120,8 +111,8 @@ class PantryRecipe extends React.Component {
                             disabled={!shoppingListState.loading}>
                             Create Shopping List based on missing ingredients
                         </button>
-                        {!shoppingListState.loading && <p>loading...</p>}
-                        {shoppingListState.error && <p>something went wrong</p>}
+                        {!shoppingListState.loading && <p>Loading...</p>}
+                        {shoppingListState.error && <ErrorAlert />}
                     </div>
                 )}
                 <IngredientsList ingredients={ res.ingredients}/>                  

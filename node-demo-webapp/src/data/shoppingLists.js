@@ -1,70 +1,70 @@
-import fetchJSON from './fetchJSON'
+import { fetchJSON } from './fetchJSON'
 
-const SCHEME_AUTHORITY = 'http://35.204.230.227' //http://localhost:61549'//'http://pantrycook.westeurope.cloudapp.azure.com' 
-const BASE_URL = `${SCHEME_AUTHORITY}/api` 
-const BASE_SHOPPING_LIST_URL = `${BASE_URL}/shoppinglists`
+class ShoppingLists {
 
-const shoppingLists = {
+    constructor(BASE_URL) {
+        this.BASE_SHOPPING_LIST_URL = `${BASE_URL}/shoppinglists`
+    }
 
-    get: (id, access_token) => {
+    get(id, access_token) {
         const options = {
             method: 'GET',
-            headers: { 'Authorization': 'Bearer ' + access_token }
+            headers: { 'Authorization': `Bearer ${access_token}` }
         }
-        return fetchJSON(`${BASE_SHOPPING_LIST_URL}/${id}`, options)
-    },
+        return fetchJSON(`${this.BASE_SHOPPING_LIST_URL}/${id}`, options)
+    }
 
-    getAll: (access_token) => {
+    getAll(access_token) {
         const options = {
             method: 'GET',
-            headers: { 'Authorization': 'Bearer ' + access_token }
+            headers: { 'Authorization': `Bearer ${access_token}` }
         }
-        return fetchJSON(BASE_SHOPPING_LIST_URL, options)
-    },
+        return fetchJSON(this.BASE_SHOPPING_LIST_URL, options)
+    }
     
-    post: (shoppingList, access_token) => {
+    post(shoppingList, access_token) {
         const options = {
             method: 'POST',
             body: JSON.stringify(shoppingList),
             headers: { 
-                'Authorization': 'Bearer ' + access_token, 
+                'Authorization': `Bearer ${access_token}`, 
                 'Content-Type': 'application/json' 
             }
         }
-        return fetchJSON(BASE_SHOPPING_LIST_URL, options)
-    },
+        return fetchJSON(this.BASE_SHOPPING_LIST_URL, options)
+    }
 
-    put: (id, shoppingList, access_token) => {
+    put(id, shoppingList, access_token) {
         const options = {
             method: 'PUT',
             body: JSON.stringify(shoppingList),
             headers: { 
-                'Authorization': 'Bearer ' + access_token, 
+                'Authorization': `Bearer ${access_token}`, 
                 'Content-Type': 'application/json' 
             }
         }
-        return fetchJSON(`${BASE_SHOPPING_LIST_URL}/${id}`, options)
-    },
+        return fetchJSON(`${this.BASE_SHOPPING_LIST_URL}/${id}`, options)
+    }
 
-    delete: (id, access_token) => {
+    delete(id, access_token) {
         const options = {
             method: 'DELETE',
-            headers: { 'Authorization': 'Bearer ' + access_token }
+            headers: { 'Authorization': `Bearer ${access_token}` }
         }
-        return fetchJSON(`${BASE_SHOPPING_LIST_URL}/${id}`, options)
-    },
+        return fetchJSON(`${this.BASE_SHOPPING_LIST_URL}/${id}`, options)
+    }
 
-    patch: (id, actionBody, access_token) => {
+    patch(id, actionBody, access_token) {
         const options = {
             method: 'PATCH',
             body: JSON.stringify(actionBody),
             headers: { 
-                'Authorization': 'Bearer ' + access_token, 
+                'Authorization': `Bearer ${access_token}`, 
                 'Content-Type': 'application/json' 
             }
         }
-        return fetchJSON(`${BASE_SHOPPING_LIST_URL}/${id}`, options)
+        return fetchJSON(`${this.BASE_SHOPPING_LIST_URL}/${id}`, options)
     }
 }
 
-export default shoppingLists
+export default ShoppingLists

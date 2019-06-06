@@ -16,6 +16,7 @@ import PantryEdit from './components/pantry/edit/PantryEdit'
 import ShoppingList from './components/shoppingList/ShoppingList'
 import ShoppingLists from './components/shoppingList/ShoppingLists'
 import ShoppingListEdit from './components/shoppingList/ShoppingListEdit'
+import UserInfo from './components/user/UserInfo'
 
 class App extends Component {
   render() {
@@ -35,6 +36,7 @@ class App extends Component {
           <Route exact path='/shoppingLists/:sl_id/edit' component = {ShoppingListEdit}/>
           <Route exact path='/signin' component = {SignIn}/>
           <Route exact path='/signup' component = {SignUp}/> 
+          <Route exact path='/user' component = {UserInfo}/> 
         </Switch>
         </div>
         </div>
@@ -42,4 +44,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default App

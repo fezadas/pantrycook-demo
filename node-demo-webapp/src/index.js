@@ -4,55 +4,28 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
-import { createStore, applyMiddleware } from 'redux'
-//import rootReducer from './store/reducers/rootReducer'
-import { Provider } from 'react-redux'
+import { Provider } from "react-redux";
+import { PersistGate } from 'redux-persist/integration/react'
+import { ConnectedRouter } from 'connected-react-router'
+import { createBrowserHistory } from 'history'
 
-import { ConnectedRouter, connectRouter, routerMiddleware } from 'connected-react-router'
-import history from './history'
+import configureStore from './store/configureStore'
 
-import thunk from 'redux-thunk'
+const history = createBrowserHistory()
 
-import PantryCookApi from './data/pantryCookApi'
+const { store, persistor }  = configureStore(history)
 
-import authReducer from './store/reducers/authReducer'
-import recipesReducer from './store/reducers/recipesReducer'
-import pantryReducer from './store/reducers/pantryReducer'
-import pantryRecipeReducer from './store/reducers/pantryRecipeReducer'
-import shoppingListReducer from './store/reducers/shoppingListReducer'
-
-import { combineReducers } from 'redux'
-
-
-
-const middlewares = [
-    thunk.withExtraArgument({ PantryCookApi }),
-    routerMiddleware(history)
-]
-
-
-
-const rootReducer = combineReducers({
-    auth: authReducer,
-    recipe: recipesReducer,
-    pantry : pantryReducer,
-    pantryRecipe: pantryRecipeReducer,
-    shoppingList: shoppingListReducer,
-    router: connectRouter(history)
-})
-
-
-const store = createStore(
-    connectRouter(history)(rootReducer), 
-    applyMiddleware(...middlewares)
-);
+const MOUNT_NODE = document.getElementById('root')
 
 ReactDOM.render(
     <Provider store={store}>
-        <ConnectedRouter history={history}>
-            <App />
-        </ConnectedRouter>
-    </Provider>, document.getElementById('root')
+        <PersistGate loading={null} persistor={persistor}>
+            <ConnectedRouter history={history}>
+                <App />
+            </ConnectedRouter>
+        </PersistGate>
+    </Provider>,
+    MOUNT_NODE
 );
 
 // If you want your app to work offline and load faster, you can change

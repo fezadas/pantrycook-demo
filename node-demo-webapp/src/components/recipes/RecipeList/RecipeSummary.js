@@ -1,12 +1,12 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import Style from '../../../pantrycook-features'
+import { isAuthenticated } from './../../../storageUtils'
 
 const image = Style.image
-const card = Style.card
 
 const RecipeSummary = ({recipe}) => {
-  const auth = localStorage.getItem('access_token')
+  const auth = isAuthenticated()
     return ( 
       <div className="col-sm">
         <div className="card text-center" >
@@ -17,14 +17,14 @@ const RecipeSummary = ({recipe}) => {
                 {recipe.name}
               </Link>
               <div>{auth && recipe.pantryIngredientsPercentage >= 0 && 
-              <span class="badge badge-primary">Owned ingredients: {recipe.pantryIngredientsPercentage}%</span>
+                <span className="badge badge-primary">Owned ingredients: {recipe.pantryIngredientsPercentage}%</span>
               }</div>
             </h6>
             <h6 className="card-subtitle mb-2 text-muted">
             <div className="dropdown-divider"/>
               {recipe.categories &&
                 recipe.categories.map(r => {
-                  return <div><span class="badge badge-secondary" key={r}>{r}</span><span> </span></div>
+                  return <div key={r}><span className="badge badge-secondary">{r}</span><span> </span></div>
                 })
               }
             </h6>

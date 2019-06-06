@@ -4,7 +4,6 @@ import Ingredient from './../ingredient/Ingredient'
 /**
  * Represents the List of Pantry Ingredients
  */
-
 const Pantry = ({ingredients})=>{
         return (
             <div>

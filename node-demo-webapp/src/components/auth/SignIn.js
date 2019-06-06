@@ -3,28 +3,32 @@ import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import { signIn } from '../../store/actions/authActions'
 import Style from '../../pantrycook-features'
+import { isAuthenticated } from './../../storageUtils'
 
 const position = Style.position
 
 class SignIn extends Component {
+
     state = {
         username: null,
         password: null
     }
+
     handleChange(e){
         this.setState({
             [e.target.id]: e.target.value
         })
     }
+
     handleSubmit(e){
         e.preventDefault();
         this.props.signIn(this.state)
     }
 
-    render() { //mostrar spinner no loading !
-        const { loading, auth, authError } = this.props
-        if(auth)
-            return <Redirect to='/'></Redirect>
+    render() {
+        const { loading, authError } = this.props
+        if(isAuthenticated())
+            return <Redirect to='/' />
      
         return (
             <div style={position.centered}>
@@ -67,9 +71,8 @@ class SignIn extends Component {
 const mapStateToProps = (state) => {
     return {
         authError: state.auth.error,
-        auth: localStorage.getItem('access_token'),
         username: state.auth.username,
-        loading:state.auth.loading,
+        loading: state.auth.loading,
     }
 }
 

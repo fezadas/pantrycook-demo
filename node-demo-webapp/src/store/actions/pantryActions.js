@@ -52,93 +52,91 @@ const fetchPantryEditSuccess = (ingredients) => ({
 
 const updatePantryIngredientsQuantitySuccess = pantry => ({
     type: UPDATE_PANTRY_INGS_QUANTITY,
-    payload: { val: true } //FIXME !!!!!! rota
+    payload: { val: true } //FIXME
 })
 
-export function fetchPantry(suggestion, missing) {
-    return (dispatch, getState, { PantryCookApi }) => {
-        
+export function fetchPantry(suggestion, suggestionLimit) {
+    return async (dispatch, getState, { PantryCookApi, storageUtils }) => {
         dispatch(fetchBegin())
-        PantryCookApi.pantryIngredients.getList(localStorage.getItem('access_token'), suggestion, missing)
-            .then(pantry => {
-                dispatch(fecthPantrySuccess(pantry))
-            })
-            .catch(error => {
-                dispatch(fetchFailure(error))
-            })
+        try{
+            const access_token = await getAccessToken(storageUtils, PantryCookApi)
+            const pantry =  await PantryCookApi.pantryIngredients.getList(access_token, suggestion)
+            dispatch(fecthPantrySuccess(pantry))
+        }catch(error){
+           
+        }  
     }
 }
 
 export function fecthPantrytoEdit() {
-    return (dispatch, getState, { PantryCookApi }) => {
-        const token = localStorage.getItem('access_token')
+    return async (dispatch, getState, { PantryCookApi, storageUtils }) => {
         dispatch(fetchBegin())
-        PantryCookApi.pantryIngredients.getList(token,null,null)
-            .then(pantry => {
-                PantryCookApi.pantryIngredients.getListToAdd(token,true)
-                    .then(ingredients => {
-                        dispatch(fecthPantryEditSuccess(pantry,ingredients))
-                    })
-                    .catch(error => { throw error })
-            })
-            .catch(error => {
-                dispatch(fetchFailure(error))
-            })
+        try{
+            const access_token = await getAccessToken(storageUtils, PantryCookApi)
+            const pantry = await PantryCookApi.pantryIngredients.getList(access_token,null,null)
+            const ingredients = await PantryCookApi.pantryIngredients.getListToAdd(access_token,true)
+            dispatch(fecthPantryEditSuccess(pantry,ingredients))
+        }catch(error){
+            dispatch(fetchFailure(error)) 
+        }
     }
 }
 
 export function updatePantryIngredientsQuantity(ingredientsList, handleSuccess, handleNotPossibleError) {
-    return (dispatch, getState, { PantryCookApi }) => {
+    return async (dispatch, getState, { PantryCookApi, storageUtils }) => {
         dispatch(fetchBegin())
-        PantryCookApi.pantryIngredients.patchDiscountQuantities(ingredientsList, localStorage.getItem('access_token'))
-            .then(res => {
-                dispatch(updatePantryIngredientsQuantitySuccess())
-                handleSuccess()
-            })
-            .catch(error => {
-                dispatch(fetchFailure(error))
-                if(error.statusCode == 400)
-                    handleNotPossibleError()
-            })
+        try{
+            const access_token = await getAccessToken(storageUtils, PantryCookApi)
+            await PantryCookApi.pantryIngredients.patchDiscountQuantities(ingredientsList, access_token)
+            dispatch(updatePantryIngredientsQuantitySuccess())
+            handleSuccess()
+        }catch(error){
+            dispatch(fetchFailure(error))  
+            if(error.statusCode == 400)
+                handleNotPossibleError()
+        }
     }
 }
 
 export function fillPantryIngredient(ingredient) {
-    return (dispatch, getState, { PantryCookApi }) => {
+    return async (dispatch, getState, { PantryCookApi, storageUtils }) => {
         dispatch(fetchBegin())
-        PantryCookApi.pantryIngredients.post(localStorage.getItem('access_token'), ingredient)
-            .then((ingredients) => {
-                dispatch(fetchPantryFillSuccess(ingredients))
-            })
-            .catch(error => {
-                dispatch(fetchFailure(error))
-            })
+        try{
+            const access_token = await getAccessToken(storageUtils, PantryCookApi)
+            const ingredients = await PantryCookApi.pantryIngredients.post(access_token, ingredient)
+            dispatch(fetchPantryFillSuccess(ingredients))
+        }catch(error){
+             dispatch(fetchFailure(error))
+        }
     }
 }
 
 export function removePantryIngredient(id) {
-    return (dispatch, getState, { PantryCookApi }) => {
+    return async (dispatch, getState, { PantryCookApi, storageUtils }) => {
         dispatch(fetchBegin())
-        PantryCookApi.pantryIngredients.delete(localStorage.getItem('access_token'), id)
-            .then((ingredients) => {
-                dispatch(fetchPantryRemoveSuccess(ingredients))
-            })
-            .catch(error => {
-                dispatch(fetchFailure(error))
-            })
+        try{
+            const access_token = await getAccessToken(storageUtils, PantryCookApi)
+            const ingredients = await PantryCookApi.pantryIngredients.delete(access_token, id)
+            dispatch(fetchPantryRemoveSuccess(ingredients))
+        }catch(error){
+            dispatch(fetchFailure(error))
+        }
     }
 }
 
 export function editPantryIngredient(ingredient) {
-    return (dispatch, getState, { PantryCookApi }) => {
+    return async (dispatch, getState, { PantryCookApi, storageUtils }) => {
         dispatch(fetchBegin())
-        console.log("HI")
-        PantryCookApi.pantryIngredients.put(localStorage.getItem('access_token'),ingredient)
-            .then((ingredients) => {
-                dispatch(fetchPantryEditSuccess(ingredients))
-            })
-            .catch(error => {
-                dispatch(fetchFailure(error))
-            })
+        try{
+            const access_token = await getAccessToken(storageUtils, PantryCookApi)
+            const ingredients = await PantryCookApi.pantryIngredients.put(access_token,ingredient)
+            dispatch(fetchPantryEditSuccess(ingredients))
+        }catch(error){
+            dispatch(fetchFailure(error))
+        }
     }
+}
+
+function getAccessToken(storageUtils, PantryCookApi) {
+    return storageUtils.getAccessToken(PantryCookApi.auth.refreshToken.bind(PantryCookApi.auth))
 }

@@ -1,10 +1,11 @@
 import React from 'react'
 import Recipe from './Recipe'
 import PantryRecipe from './PantryRecipe'
+import { isAuthenticated } from './../../../storageUtils'
 
 class RecipeInfo extends React.Component {
     render() {
-        const auth = localStorage.getItem('access_token')
+        const auth = isAuthenticated()
         const r_id = this.props.match.params.r_id
         return ( 
             <div>

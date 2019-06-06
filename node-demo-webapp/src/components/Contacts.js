@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Constacts = () => {
+const Contacts = () => {
     return (
         <div>
         <div className="dropdown-divider"/>
@@ -16,7 +16,9 @@ const Constacts = () => {
                 <p className="lead font-weight-normal"><span> <i className="fab fa-github"></i> fezadas </span></p>
                 <p className="lead font-weight-normal">Credits to TheMealDB API.</p>
                 <p className="lead font-weight-normal"></p>
-                <a className="btn btn-outline-secondary" href="#">Coming soon</a>
+                <a href="https://github.com/fezadas/ps-2018-19"className="btn btn-outline-secondary">GitHub Repo</a>
+                <p className="lead font-weight-normal"></p>
+                <a href="http://localhost:61549/swagger/ui/index"className="btn btn-outline-secondary">API Documentation</a>
             </div>
             <div className="product-device shadow-sm d-none d-md-block"></div>
             <div className="product-device product-device-2 shadow-sm d-none d-md-block"></div>
@@ -25,4 +27,4 @@ const Constacts = () => {
     )
 }
 
-export default Constacts
+export default Contacts

@@ -1,6 +1,5 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import RecipeIngredient from '../../ingredient/RecipeIngredient'
 import { fetchRecipeInfo } from '../../../store/actions/recipeActions'
 import ErrorAlert from './../../layout/ErrorAlert'
 import IngredientsList from '../../ingredient/IngredientsList'
@@ -19,22 +18,21 @@ class Recipe extends React.Component {
     render() {
         const { loading, res, error } = this.props
         if(error)
-            return(
-            <div style={position.centered}>
-            <ErrorAlert />
-            </div>
-        ) 
+            return (
+                <div style={position.centered}>
+                    <ErrorAlert />
+                </div>
+            ) 
             
-        if(loading){
-            return(
-            <div style = {position.centered} className="text-center">
-            <div className="spinner-border text-primary" role="status">
-              <span className="sr-only">Loading...</span>
-            </div>
-            </div>)
-        }
+        if(loading)
+            return (
+                <div style = {position.centered} className="text-center">
+                <div className="spinner-border text-primary" role="status">
+                    <span className="sr-only">Loading...</span>
+                </div>
+                </div>
+            )
         
-        //falta adicionar categorias e ingredientes
         return (
             <div style={position.top_not_centered} className="container">
                 {res && 
@@ -51,7 +49,6 @@ class Recipe extends React.Component {
                 </div>
                 <div>
                     <IngredientsList auth = {true} ingredients = {res.ingredients}/>     
-
                 </div>
                 </div>
                 }

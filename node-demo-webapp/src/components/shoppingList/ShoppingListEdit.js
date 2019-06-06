@@ -1,13 +1,13 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { push, replace } from 'connected-react-router'
+import { push } from 'connected-react-router'
 import { fetchShoppingList, updateShoppingList } from '../../store/actions/shoppingListActions'
 import ErrorAlert from '../layout/ErrorAlert'
 import AutoSuggest from './../AutoSuggest'
 import PantryCookApi from './../../data/pantryCookApi'
 import Style from '../../pantrycook-features'
-
-const UNAUTHORIZED = 401
+import { isAuthenticated } from './../../storageUtils'
+import theme from '../../theme.css'
 
 const position = Style.position
 const shopping = Style.shoppingList
@@ -20,11 +20,13 @@ class ShoppingListEdit extends React.Component {
     }
     constructor(props) {
         super(props)
+        const pantryCookApi = new PantryCookApi()
+        this.state = { pantryCookApi } 
         this.state.id = this.props.match.params.sl_id
     }
 
     componentDidMount() {
-        if(!this.props.auth)
+        if(!isAuthenticated())
             return this.props.redirectLogin()
         this.props.getShoppingList(
             this.state.id, 
@@ -64,7 +66,7 @@ class ShoppingListEdit extends React.Component {
     }
 
     fetchIngredientsBySuggestion(suggestion) {
-        return PantryCookApi.ingredients.getList(suggestion)
+        return this.state.pantryCookApi.ingredients.getList(suggestion)
             .then(res => {
                 return res.ingredients
             })
@@ -81,12 +83,7 @@ class ShoppingListEdit extends React.Component {
         const shoppingList = this.state.shoppingList
         
         if(error)
-            if(error.statusCode == UNAUTHORIZED){
-               return (
-                <p style={position.top}>{error.body.Message}</p> //tem de fazer login de novo
-                ) 
-            }
-            else return (
+            return (
                 <div style={position.centered_style}>
                     <ErrorAlert />
                 </div>
@@ -97,46 +94,53 @@ class ShoppingListEdit extends React.Component {
         
         return (
             <div>
-            <section style={shopping.section_pricing} class="pricing py-5">
+            <section style={shopping.section_pricing} className="pricing py-5">
             <div className="container" >
             <div className="row" style={position.centered_style}>
                 {shoppingList && 
                     <div className="col-lg-4">
                     <div style={shopping.pricing_card} className="card mb-5 mb-lg-0">
                     <div className="card-body">
-                        <h6 style = {shopping.pricing_card_price} class="card-price text-center">
+                        <h6 style = {shopping.pricing_card_price} className="card-price text-center">
                             {shoppingList.name}
                         </h6>
                         <hr style={shopping.pricing_hr}></hr>
                         
                         <ul style={shopping.ul_center} className="fa-ul">
+                        
                         {shoppingList.items && shoppingList.items.map((item, idx) =>{
                             return(
-                            <li style={shopping.pricing_ul_li}>
+                            <li key={item.name} style={shopping.pricing_ul_li}>
                                 <span className="fa-li"></span>
-                                <span className="font-weight-bold">
-                                    {item.name} - 
-                                </span> 
-                                <input
-                                    type="text"
+                                <p className="font-weight-bold">
+                                {item.name}
+                                <button style={position.left} onClick={this.handleItemRemoval.bind(this, idx)} type="button" className="close" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                                </p> 
+                               
+                                <div className="input-group mb-3">
+                                <input type="text" 
                                     value={this.props.shoppingList.items[idx].quantity}
                                     onChange={this.handleOnQuantityChange.bind(this, idx)}
-                                />
-                                <span className='close' 
-                                    onClick={this.handleItemRemoval.bind(this, idx)}>X</span>
-                                <span className="font-italic">
-                                    {item.unity.length > 2 ? '' : item.unity}
-                                </span>
+                                    className="form-control" 
+                                    placeholder="Shopping List Ingredient" 
+                                    aria-label="Shopping List Ingredient" 
+                                    aria-describedby="basic-addon2"/>
+                                <div className="input-group-append">
+                                    <span className="input-group-text" id="basic-addon2">{item.unity}</span>
+                                </div>
+                                </div>
                             </li>
                             )
                         })}
                        </ul>
 
                        <h6>Insert a new item</h6>
-                        <AutoSuggest
+                        <AutoSuggest theme={theme}
                             handleSelection={this.handleNewIngredientSelection.bind(this)}
                             renderSuggestion={this.renderIngredientSuggestion.bind(this)}
-                            onSuggestionsFetchRequested ={this.fetchIngredientsBySuggestion}
+                            onSuggestionsFetchRequested ={this.fetchIngredientsBySuggestion.bind(this)}
                         />
                         <div/>
                         <button 
@@ -149,9 +153,6 @@ class ShoppingListEdit extends React.Component {
                         }
                     </div>
                     </div>
-
-                    
-
                 </div>
                 }
             </div>
@@ -167,8 +168,7 @@ const mapStateToProps = (state) => {
     return {
         shoppingList: state.shoppingList.shoppingList,
         error: state.shoppingList.error,
-        loading : state.shoppingList.loading,
-        auth: localStorage.getItem('access_token')
+        loading : state.shoppingList.loading
     }
 }
 
@@ -181,4 +181,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(ShoppingListEdit)
+export default connect(mapStateToProps, mapDispatchToProps)(ShoppingListEdit)

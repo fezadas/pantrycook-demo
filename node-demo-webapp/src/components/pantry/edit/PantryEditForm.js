@@ -6,7 +6,6 @@ const form = Style.form
 /**
  * Represent the Form to change quantity of specific Pantry Ingredient
  */
-
 class PantryEditForm extends React.Component {
     constructor(props) {
         super(props);
@@ -25,7 +24,7 @@ class PantryEditForm extends React.Component {
         this.props.editIng(ingredient);
         this.setState({
             quantity: ""
-          });
+        });
     }
 
     render() {

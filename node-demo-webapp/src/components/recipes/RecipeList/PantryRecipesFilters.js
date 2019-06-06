@@ -5,11 +5,18 @@ import theme from '../../../theme.css'
 import Style from '../../../pantrycook-features'
 
 const form = Style.form
+const position = Style.position
 
 class PantryRecipesFilters extends React.Component {
 
+    constructor(props) {
+        super(props)
+        const pantryCookApi = new PantryCookApi()
+        this.state = { pantryCookApi } 
+    }
+
     fetchIngredientsBySuggestion(suggestion) {
-        return PantryCookApi.ingredients.getList(suggestion)
+        return this.state.pantryCookApi.ingredients.getList(suggestion)
             .then(res => {
                 return res.ingredients
             })
@@ -24,7 +31,7 @@ class PantryRecipesFilters extends React.Component {
     }
 
     fetchCategoriesBySuggestion(suggestion) {
-        return PantryCookApi.categories.getList(suggestion)
+        return this.state.pantryCookApi.categories.getList(suggestion)
             .then(res => {
                 return res.categories
             })
@@ -47,14 +54,16 @@ class PantryRecipesFilters extends React.Component {
                     <AutoSuggest
                         handleSelection={this.props.handleIngredientSelection}
                         renderSuggestion={this.renderIngredientSuggestion}
-                        onSuggestionsFetchRequested ={this.fetchIngredientsBySuggestion}
+                        onSuggestionsFetchRequested ={this.fetchIngredientsBySuggestion.bind(this)}
                         theme={theme}
                     />
                 </div>
                 <div>
                     {this.props.searchIngs.length > 0 &&
-                        this.props.searchIngs.map(ing => <p>{ing.name} <span className='close' 
-                        onClick={() => this.props.handleIngredientRemoval(ing)}>X</span></p>)
+                        this.props.searchIngs.map(ing => <p key={ing.name}>{ing.name}
+                        <button style={position.left} onClick={() => this.props.handleIngredientRemoval(ing)} type="button" className="close" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button></p>)
                     }
                 </div>     
                 <h6>Category</h6>
@@ -62,14 +71,16 @@ class PantryRecipesFilters extends React.Component {
                     <AutoSuggest 
                         handleSelection={this.props.handleCategorySelection}
                         renderSuggestion={this.renderCategorySuggestion}
-                        onSuggestionsFetchRequested ={this.fetchCategoriesBySuggestion}
+                        onSuggestionsFetchRequested ={this.fetchCategoriesBySuggestion.bind(this)}
                         theme={theme}
                     />
                 </div>
                 <div>
                     {this.props.searchCat &&
-                        <p>{this.props.searchCat.name} <span className='close' 
-                        onClick={() => this.props.handleCategoryRemoval()}>X</span></p>
+                        <p key={this.props.searchCat.name}>{this.props.searchCat.name}
+                        <button style={position.left} onClick={() => this.props.handleCategoryRemoval()} type="button" className="close" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button></p>
                     }
                 </div>
                 <button style = {form.top_padding} type="button" className="btn btn-primary" 

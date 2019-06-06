@@ -7,7 +7,6 @@ const card = Style.card
 /**
  * Represents the editable list of ingredients from Pantry
  */
-
 class PantryListEdit extends React.Component {
     constructor(props) {
         super(props);

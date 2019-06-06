@@ -5,7 +5,7 @@ import { fetchShoppingList, deleteShoppingList, addShoppingListItemsToPantry } f
 import ShoppingListIngredients from './ShoppingListIngredients'
 import ErrorAlert from '../layout/ErrorAlert'
 import Style from '../../pantrycook-features'
-const UNAUTHORIZED = 401
+import { isAuthenticated } from './../../storageUtils'
 
 const shopping = Style.shoppingList
 const position = Style.position
@@ -17,7 +17,7 @@ class ShoppingList extends React.Component {
     }
 
     componentDidMount() {
-        if(!this.props.auth){
+        if(!isAuthenticated()){
             this.props.redirectLogin()
         }
         else{
@@ -46,26 +46,21 @@ class ShoppingList extends React.Component {
     render() {
         const { loading, shoppingList, error } = this.props
         if(error)
-            if(error.statusCode == UNAUTHORIZED){
-                return (
-                    <p style={position.top}>{error.body.Message}</p> //tem de fazer login de novo
-                ) 
-            }
-            else return (
+            return (
                 <div style={position.centered_style}>
                     <ErrorAlert error={error.body}/>
                 </div>
             )
             
-            if(loading){
-                return(
+        if(loading) 
+            return (
                 <div style = {position.centered_style} className="text-center">
                 <div className="spinner-border text-primary" role="status">
-                  <span className="sr-only">Loading...</span>
+                    <span className="sr-only">Loading...</span>
                 </div>
-                </div>)
-            }
-        
+                </div>
+            )
+            console.log(shoppingList)
         return (
             <div>
             <div className="dropdown-divider"></div>  
@@ -79,7 +74,7 @@ class ShoppingList extends React.Component {
                         <h5 style = {shopping.pricing_card_title} className="card-title text-muted text-uppercase text-center">
                             Shopping List
                         </h5>
-                        <h6 style = {shopping.pricing_card_price} class="card-price text-center">
+                        <h6 style = {shopping.pricing_card_price} className="card-price text-center">
                             {shoppingList.name}
                         </h6>
                         <button onClick={() => this.props.navigateToEdit(this.state.id)} disabled={this.state.loading}>
@@ -89,12 +84,19 @@ class ShoppingList extends React.Component {
                             Delete
                         </button>
                         <hr style={shopping.pricing_hr}></hr>
-                        <ShoppingListIngredients items={shoppingList.items}/>
-                        <button style = {shopping.pricing_btn} className="btn btn-block btn-primary text-uppercase"
-                            onClick={this.handleAddItemsToPantry.bind(this)}
-                            disabled={this.state.loading}>
-                            Add Items to Pantry
-                        </button> 
+                        {
+                            shoppingList.items && shoppingList.items.length <= 0 ?
+                            <p>Nothing To Show</p>
+                            :
+                            <div>
+                                <ShoppingListIngredients items={shoppingList.items}/>
+                                <button style = {shopping.pricing_btn} className="btn btn-block btn-primary text-uppercase"
+                                    onClick={this.handleAddItemsToPantry.bind(this)}
+                                    disabled={this.state.loading}>
+                                    Add Items to Pantry
+                                </button> 
+                            </div>
+                        }
                     </div>
                     </div>
                 </div>
@@ -112,8 +114,7 @@ const mapStateToProps = (state) => {
     return {
         shoppingList: state.shoppingList.shoppingList,
         error: state.shoppingList.error,
-        loading : state.shoppingList.loading,
-        auth: localStorage.getItem('access_token'),
+        loading : state.shoppingList.loading
     }
 }
 

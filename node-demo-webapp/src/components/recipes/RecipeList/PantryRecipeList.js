@@ -4,11 +4,11 @@ import RecipeSummary from './RecipeSummary'
 import PantryRecipesFilters from './PantryRecipesFilters'
 import PageNavigator from './PageNavigator'
 import { connect } from 'react-redux'
-import AlertRedirect from '../../auth/AlertRedirect'
 import ErrorAlert from '../../layout/ErrorAlert'
 import { push, replace } from 'connected-react-router'
 import { fetchRecipesPage, fetchRecipesPageByUri } from '../../../store/actions/pantryRecipeActions'
 import Style from '../../../pantrycook-features'
+import { isAuthenticated } from './../../../storageUtils'
 
 const position = Style.position
 
@@ -21,8 +21,8 @@ class PantryRecipeList extends React.Component {
     }
 
     componentDidMount() {
-        const auth = localStorage.getItem('access_token')
-        if(!auth) return this.props.navigateToSignIn()
+        if(!isAuthenticated())
+            return this.props.navigateToSignIn()
 
         const queryParams = analyseQuery(this.props.location.search)
         this.setState({ searchCat: queryParams.category, searchIngs: queryParams.ingredients })
@@ -38,7 +38,6 @@ class PantryRecipeList extends React.Component {
         if(suggestion && !ings.find(i => i.name == suggestion.name)) {
             ings.push(suggestion)
             this.setState({ searchIngs: ings })
-            console.log(ings)
             this.search(ings, this.state.searchCat)
         }
     }
@@ -92,23 +91,22 @@ class PantryRecipeList extends React.Component {
 
     render() {
         let { page, error, loading } = this.props
+
+        console.log('RENDER')
+
         if(error)
-            if(error.statusCode == 401){
-                return (
-                    <AlertRedirect/>
-                )
-            }
-            else return (
-                <ErrorAlert />
+            return (
+                <ErrorAlert error={error.body}/>
             )
-        if(loading){
-            return(
-            <div style = {position.centered} className="text-center">
-            <div className="spinner-border text-primary" role="status">
-                <span className="sr-only">Loading...</span>
-            </div>
-            </div>)
-        }    
+        if(loading)
+            return (
+                <div style = {position.centered} className="text-center">
+                <div className="spinner-border text-primary" role="status">
+                    <span className="sr-only">Loading...</span>
+                </div>
+                </div>
+            )
+        
         return (
             <div className="container" style={position.top}>
                 {page &&
@@ -155,8 +153,8 @@ function analyseQuery(search) {
     let i = 1
     while(true){
         const val = query.get(`ing${i++}`)
-        if(!val) break;
-        ingredients.push({ Name: val })
+        if(!val) break
+        ingredients.push({ name: val })
     }
     return { page, category, ingredients }
 }
@@ -174,6 +172,7 @@ function buildClientQuery(ings, cat) {
         query.category = cat.name
     query = query_string.stringify(query)
     query = query.replace(/%20/g, '+')
+    console.log(query)
     return query
 }
 
@@ -192,9 +191,10 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(fetchRecipesPage(page, limit, category, ingredients)),
         fetchRecipesPageByUri: (uri, ingredients, updateClientUri) => 
             dispatch(fetchRecipesPageByUri(uri, ingredients, updateClientUri)),
+
         navigateToSignIn: () => dispatch(replace('/signin/')),
         pushPageSearch: (query) => dispatch(push(`/recipes?${query}`)),
-        replacePageSearch: (query) => dispatch(replace(`/recipes?${query}`))
+        replacePageSearch: (query) => dispatch(replace(`/recipes?${query}`)),
     }
 }
 

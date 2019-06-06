@@ -1,19 +1,18 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { fetchShoppingLists, createShoppingList } from '../../store/actions/shoppingListActions'
-import { refreshToken } from '../../store/actions/authActions'
 import ShoppingListItem from '../shoppingList/ShoppingListItem'
 import { push } from 'connected-react-router'
 import ErrorAlert from './../../components/layout/ErrorAlert'
 import Style from '../../pantrycook-features'
+import { isAuthenticated } from './../../storageUtils'
 
 const position = Style.position
-const UNAUTHORIZED = 401
 
 class ShoppingLists extends React.Component {
 
     componentDidMount() {
-        this.props.auth ? 
+        isAuthenticated() ? 
             this.props.getShoppingLists() 
             : this.props.redirectLogin()
     }
@@ -35,19 +34,14 @@ class ShoppingLists extends React.Component {
     render() {
         const {shoppingLists,error,loading} = this.props
         const name = this.state ? this.state.name : ''
-        console.log(error)
+
         if(error)
-            if(error.statusCode == UNAUTHORIZED){
-              return (
-                <p style={position.top}>{error.body.Message}</p> //tem de fazer login de novo
-            )  
-            } else return(
+            return (
                 <div style={position.centered}>
                     <ErrorAlert />
                 </div>
             )
             
-
         if(loading){
             return(
             <div style = {position.centered} className="text-center">
@@ -57,7 +51,7 @@ class ShoppingLists extends React.Component {
             </div>)
         }
 
-        if(shoppingLists){
+        if(shoppingLists) {
             return(
                 <div className="container" style= {position.list_centered_style}>
                     <h1 className="jumbotron-heading">Shopping Lists</h1>
@@ -88,8 +82,7 @@ const mapStateToProps = (state) => {
         shoppingLists: state.shoppingList.shoppingLists,
         error: state.shoppingList.error,
         loading : state.shoppingList.loading,
-        auth: localStorage.getItem('access_token'),
-        name:''
+        name: ''
     }
 }
 
@@ -97,7 +90,6 @@ const mapDispatchToProps = (dispatch) => {
     return {
         getShoppingLists: () => dispatch(fetchShoppingLists()),
         redirectLogin: () => dispatch(push(`/signin`)),
-        getNewToken: (refresh_Token) => dispatch(refreshToken(refresh_Token)),
         createShoppingList: (shoppingList,redirect) => dispatch(createShoppingList(shoppingList,redirect)),
         redirectShoppingListEdit: (id) => dispatch(push(`/shoppingLists/${id}/edit`))
     }

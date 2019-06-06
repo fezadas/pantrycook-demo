@@ -4,10 +4,8 @@ import { fetchPantry } from '../../store/actions/pantryActions'
 import Pantry from './../pantry/Pantry'
 import { push } from 'connected-react-router'
 import ErrorAlert from './../../components/layout/ErrorAlert'
-import AlertRedirect from '../auth/AlertRedirect'
 import Style from '../../pantrycook-features'
-
-const UNAUTHORIZED = 401
+import { isAuthenticated } from './../../storageUtils'
 
 const position = Style.position
 const form = Style.form
@@ -15,69 +13,61 @@ const form = Style.form
 /**
  * Represents the Parent Component of Pantry, including the SearchBar
  */
-
 class PantrySearchBar extends React.Component {
+
     state = {
         suggestion: null
     }
 
-    componentDidMount(){
-        if(!this.props.auth){
+    componentDidMount() {
+        if(!isAuthenticated()) {
             this.props.redirectLogin()
-        }else {
-            let suggestion
-            let missing
-            if(this.props.location.query){
-                missing = this.props.location.query.missing
-                suggestion = this.props.location.query.suggestion
-            }
-            this.props.searchIngredients(suggestion,missing)
+        } else {
+            this.props.searchIngredients()
         }
     }
 
-    handleChange(e){
+    handleChange(e) {
         this.setState({
             [e.target.id]: e.target.value
         })
     }
-    handleClick(e){
+
+    handleClick(e) {
         e.preventDefault();
         this.setState(this.props.searchIngredients(this.state.suggestion))
     }
 
-    refreshClick(e){
+    refreshClick(e) {
         e.preventDefault();
         this.setState(this.props.searchIngredients())
     }
 
-    navigateClick(e){
+    navigateClick(e) {
         e.preventDefault();
         this.props.navigateToPantryEdit()
     }
 
-    render(){
+    render() {
         const { loading, res, error } = this.props
         if(error)
-            if(error.statusCode == UNAUTHORIZED){
-                return (
-                    <AlertRedirect/>
-                )
-            }
-            else return (
+            return (
                 <div style={position.centered_1}>
                     <ErrorAlert />
                 </div>  
             )
-        if(loading){
-            return(
-            <div style = {position.centered} className="text-center">
-            <div className="spinner-border text-primary" role="status">
-                <span className="sr-only">Loading...</span>
-            </div>
-            </div>)
-        }
+
+        if(loading)
+            return (
+                <div style = {position.centered} className="text-center">
+                <div className="spinner-border text-primary" role="status">
+                    <span className="sr-only">Loading...</span>
+                </div>
+                </div>
+            )
+        
         const ingredients = res.ingredients 
-        return(
+        return (
             <div>
                 <div className="dropdown-divider"></div>
                 <div className="container" style={position.top}>
@@ -101,17 +91,16 @@ const mapStateToProps = (state) => {
     return {
         res: state.pantry.pantry,
         error: state.pantry.error,
-        loading : state.pantry.loading,
-        auth: localStorage.getItem('access_token')
+        loading : state.pantry.loading
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        searchIngredients: (suggestion,missing) => dispatch(fetchPantry(suggestion,missing)),
+        searchIngredients: (suggestion) => dispatch(fetchPantry(suggestion)),
         navigateToPantryEdit: () => dispatch(push(`/pantry/edit`)),
         redirectLogin: () => dispatch(push(`/signin`))
     }
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(PantrySearchBar)
+export default connect(mapStateToProps, mapDispatchToProps)(PantrySearchBar)

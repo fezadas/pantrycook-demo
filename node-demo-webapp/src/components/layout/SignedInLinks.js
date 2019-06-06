@@ -4,12 +4,11 @@ import { connect } from 'react-redux'
 import { signOut } from '../../store/actions/authActions'
 import { push } from 'connected-react-router'
 
-
 class SignedInLinks extends React.Component {
   
   onLogout = (e) => {
     e.preventDefault()
-    this.props.signOut() //mal ??? 
+    this.props.signOut()
     this.props.redirect()
   }
 
@@ -28,11 +27,11 @@ class SignedInLinks extends React.Component {
           <li className="nav-item">
             <NavLink className="nav-link" to="/contacts">Contact</NavLink>
           </li>
-          <li>
+          <li className="nav-item">
             <a className="nav-link" onClick={this.onLogout.bind(this)}> SignOut</a>
           </li>
-          <li>
-            <a className="nav-link"> <span className="badge badge-success">{this.props.username}</span></a>
+          <li className="nav-item">
+            <NavLink className="nav-link" to ="/user"> <span className="badge badge-success">{this.props.username}</span></NavLink>
           </li>
           </ul>
     )
