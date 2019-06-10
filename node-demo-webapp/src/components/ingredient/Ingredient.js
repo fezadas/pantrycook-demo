@@ -2,7 +2,7 @@ import React from 'react'
 import Style from '../../pantrycook-features'
 
 const list = Style.list
-
+const image = Style.image
 const Ingredient = ({ingredient}) => {
     return (
         <div className="col-sm">
@@ -10,7 +10,7 @@ const Ingredient = ({ingredient}) => {
                 <h5 className="card-title">
                     {ingredient.Name}
                 </h5>
-                <i className="fas fa-drumstick-bite fa-3x"></i>
+                <img style = {image.small} src="/images/harvest.png"></img>
                 <div className="card-body">
                     <h6 className="card-subtitle mb-2 text-muted">
                         {ingredient.Quantity} {ingredient.Unity}

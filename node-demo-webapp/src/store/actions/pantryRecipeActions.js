@@ -4,7 +4,7 @@ export const FETCH_BEGIN = 'FETCH_BEGIN'
 export const FETCH_ERROR = 'FETCH_ERROR'
 export const FETCH_PANTRY_RECIPE_INFO_SUCCESS = 'FETCH_PANTRY_RECIPE_INFO_SUCCESS'
 export const FETCH_RECIPES_PAGE_SUCCESS = 'FETCH_RECIPES_PAGE_SUCCESS'
-export const FETCH_RECIPES_PAGE_BY_URI_SUCCESS = 'FETCH_RECIPES_PAGE_BY_URI_SUCCESS'
+export const CLEAR_RECIPES_PAGES_CACHE = 'CLEAR_RECIPES_PAGES_CACHE'
 
 const fetchBegin = () => ({
     type: FETCH_BEGIN
@@ -34,14 +34,14 @@ export function fetchPantryRecipeInfo(id) {
     }
 }
 
-const fetchRecipesPageSuccess = page => ({
+const fetchRecipesPageSuccess = (page, category, ingredients) => ({
     type: FETCH_RECIPES_PAGE_SUCCESS,
-    payload: { page }
+    payload: { page, filters: {category, ingredients} }
 })
 
-export function fetchRecipesPage(page, limit, category, ingredients) {
+export function fetchRecipesPage(page, limit, category, ingredients, updateClientUri) {
     return async (dispatch, getState, { PantryCookApi, storageUtils }) => {
-
+        const ings = ingredients
         if(ingredients)
             ingredients = ingredients.map(ing => ing.name)
 
@@ -57,7 +57,9 @@ export function fetchRecipesPage(page, limit, category, ingredients) {
         try {
             const access_token = await getAccessToken(storageUtils, PantryCookApi)
             const page = await PantryCookApi.pantryRecipes.getPage(query, ingredients, access_token)
-            dispatch(fetchRecipesPageSuccess(page))
+            dispatch(fetchRecipesPageSuccess(page, category, ings == null ? [] : ings))
+            if(updateClientUri)
+                updateClientUri()
         }
         catch(error) {
             dispatch(fetchFailure(error))
@@ -65,14 +67,9 @@ export function fetchRecipesPage(page, limit, category, ingredients) {
     }
 }
 
-const fetchRecipesPageByUriSuccess = page => ({
-    type: FETCH_RECIPES_PAGE_BY_URI_SUCCESS,
-    payload: { page }
-})
-
-export function fetchRecipesPageByUri(uri, ingredients, updateClientUri) {
+export function fetchRecipesPageByUri(uri, category, ingredients, updateClientUri) {
     return async (dispatch, getState, { PantryCookApi, storageUtils }) => {
-
+        const ings = ingredients
         if(ingredients)
             ingredients = ingredients.map(ing => ing.name)
 
@@ -80,13 +77,17 @@ export function fetchRecipesPageByUri(uri, ingredients, updateClientUri) {
         try {
             const access_token = await getAccessToken(storageUtils, PantryCookApi)
             const page = await PantryCookApi.pantryRecipes.getPageByUri(uri, ingredients, access_token)
-            dispatch(fetchRecipesPageByUriSuccess(page))
+            dispatch(fetchRecipesPageSuccess(page, category, ings == null ? [] : ings))
             updateClientUri()
         }
         catch(error) {
             dispatch(fetchFailure(error))
         }
     } 
+}
+
+export function clearRecipesPagesCache() {
+    return (dispatch) => dispatch({ type: CLEAR_RECIPES_PAGES_CACHE })
 }
 
 function getAccessToken(storageUtils, PantryCookApi) {

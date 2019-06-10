@@ -16,10 +16,10 @@ class PantryRecipeList extends React.Component {
 
     constructor(props) {
         super(props)
-        this.state = { pageLimit: 3, query: null, //query without page
+        this.state = { pageLimit: 4, query: null, //query without page
             searchIngs: [], searchCat: null } 
     }
-
+   
     componentDidMount() {
         if(!isAuthenticated())
             return this.props.navigateToSignIn()
@@ -31,6 +31,15 @@ class PantryRecipeList extends React.Component {
             this.state.pageLimit, 
             queryParams.category, 
             queryParams.ingredients.length == 0 ? null : queryParams.ingredients)
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if(nextProps.filters) {
+            this.setState({ 
+                searchCat: nextProps.filters.category,
+                searchIngs: nextProps.filters.ingredients
+            })
+        }
     }
 
     handleIngredientSelection(suggestion) {
@@ -71,14 +80,17 @@ class PantryRecipeList extends React.Component {
 
         const query = buildClientQuery(ings, cat)
         this.setState({ query })
-        this.props.fetchRecipesPage(1, this.state.pageLimit, cat, ings.length == 0 ? null : ings)
-        this.props.pushPageSearch(query)
+        this.props.fetchRecipesPage(
+            1, this.state.pageLimit, 
+            cat, ings.length == 0 ? null : ings,
+            () => this.props.pushPageSearch(query))
     }
 
     changePage(uri) {
         const ings = this.state.searchIngs
         this.props.fetchRecipesPageByUri(
-            uri, 
+            uri,
+            this.state.searchCat,
             ings.length == 0 ? null : ings,
             () => {
                 let page = this.props.page.pageNumber
@@ -91,12 +103,10 @@ class PantryRecipeList extends React.Component {
 
     render() {
         let { page, error, loading } = this.props
-
-        console.log('RENDER')
-
+        
         if(error)
             return (
-                <ErrorAlert error={error.body}/>
+                <ErrorAlert/>
             )
         if(loading)
             return (
@@ -172,13 +182,13 @@ function buildClientQuery(ings, cat) {
         query.category = cat.name
     query = query_string.stringify(query)
     query = query.replace(/%20/g, '+')
-    console.log(query)
     return query
 }
 
 const mapStateToProps = (state) => {
     return {
         page: state.pantryRecipe.page,
+        filters: state.pantryRecipe.filters,
         error: state.pantryRecipe.error,
         loading: state.pantryRecipe.loading,
         router: state.router
@@ -187,11 +197,11 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        fetchRecipesPage: (page, limit, category, ingredients) => 
-            dispatch(fetchRecipesPage(page, limit, category, ingredients)),
-        fetchRecipesPageByUri: (uri, ingredients, updateClientUri) => 
-            dispatch(fetchRecipesPageByUri(uri, ingredients, updateClientUri)),
-
+        fetchRecipesPage: (page, limit, category, ingredients, updateClientUri) => 
+            dispatch(fetchRecipesPage(page, limit, category, ingredients, updateClientUri)),
+        fetchRecipesPageByUri: (uri, category, ingredients, updateClientUri) => 
+            dispatch(fetchRecipesPageByUri(uri, category, ingredients, updateClientUri)),
+            
         navigateToSignIn: () => dispatch(replace('/signin/')),
         pushPageSearch: (query) => dispatch(push(`/recipes?${query}`)),
         replacePageSearch: (query) => dispatch(replace(`/recipes?${query}`)),

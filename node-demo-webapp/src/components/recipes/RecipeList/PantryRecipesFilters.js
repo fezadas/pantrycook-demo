@@ -1,8 +1,8 @@
 import React from 'react'
 import AutoSuggest from './../../AutoSuggest'
 import PantryCookApi from './../../../data/pantryCookApi'
-import theme from '../../../theme.css'
 import Style from '../../../pantrycook-features'
+import theme from './../../../theme.css'
 
 const form = Style.form
 const position = Style.position

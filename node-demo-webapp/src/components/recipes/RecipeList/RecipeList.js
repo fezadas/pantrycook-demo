@@ -13,7 +13,6 @@ class Recipes extends React.Component {
         this.props.getRandomRecipes(10)
     }
     render() {
-        console.log(this.props)
         const { loading, res, error } = this.props
         if(error)
             return(

@@ -94,7 +94,7 @@ class PantryEdit extends React.Component {
         }
         return(
             <ul className="list-group">
-                {suggestions.suggestions.map((item)=> <li key={item.Name} className="list-group-item" onClick={() => this.suggestionsSelected(item.Name)}>{item.Name}</li>)}
+                {suggestions.suggestions.map((item)=> <li key={item.Name} className="small list-group-item" onClick={() => this.suggestionsSelected(item.Name)}>{item.Name}</li>)}
             </ul>
         )
 
@@ -129,10 +129,10 @@ class PantryEdit extends React.Component {
                     <div style={position.top} className="container">
                     <div className="card text-center">
                         <div className="card-body">
-                            <p className="card-text">1 - To Add an Ingredient, choose the name and quantity.</p>
-                            <p className="card-text">2 - To Remove you can simply click on the ingredient you want to remove.</p>
-                            <p className="card-text">3 - To Edit an Ingredient ...</p>
-                            </div>
+                            <div><span className="badge badge-info">To Add an Ingredient, choose the name and quantity.</span></div>
+                            <div><span className="badge badge-info">To Remove you can simply click on the delete button.</span></div>
+                            <div><span className="badge badge-info">To Edit an Ingredientchange the quantity.</span></div>
+                        </div>
                     </div>
                     <div className="dropdown-divider"></div> 
                     <div>  

@@ -1,23 +1,21 @@
+import { LOCATION_CHANGE } from 'react-router-redux'
 import {
     FETCH_BEGIN,
     FETCH_ERROR,
     FETCH_PANTRY_RECIPE_INFO_SUCCESS,
-    FETCH_RECIPES_PAGE_SUCCESS,
-    FETCH_RECIPES_PAGE_BY_URI_SUCCESS
+    FETCH_RECIPES_PAGE_SUCCESS
 } from '../actions/pantryRecipeActions'
-
-const LOCATION_CHANGE = "@@router/LOCATION_CHANGE"
 
 const initState = {
     locationKey: null,
-    pages: [], // [ { locationKey: ..., page: ... }]
+    currLocationState: null,
+    page: null,
+    filters: { category: null, ingredients: [] },
     loading: false, error: null, 
     recipeInfo: null,  
 }
 
 const recipesReducer = (state = initState, action) => {
-    console.log(action)
-    console.log(state)
     switch(action.type) {
         case FETCH_BEGIN:
             return {
@@ -29,8 +27,7 @@ const recipesReducer = (state = initState, action) => {
             return {
                 ...state,
                 loading: false,
-                error: action.payload.error,
-                recipes: null
+                error: action.payload.error
             }
         case FETCH_PANTRY_RECIPE_INFO_SUCCESS:
             return {
@@ -40,55 +37,63 @@ const recipesReducer = (state = initState, action) => {
                 recipeInfo: action.payload.recipeInfo
             }
         case LOCATION_CHANGE: {
-            const key = action.payload.location.key
-            console.log(key)
             if(action.payload.action = 'PUSH') {
-                console.log(state)
-                let page = state.pages.find(p => p.locationKey == key)
-                if(page) {
+                const key = action.payload.location.key
+                let currLocationState = sessionStorage.getItem(key)
+                if(currLocationState != undefined) {
+                    currLocationState = JSON.parse(currLocationState)
                     return {
                         ...state,
-                        page: page.page
+                        page: currLocationState.page,
+                        filters: currLocationState.filters
                     }
-                } else {
-                    if(state.pages.length > 0) {                
-                        page = state.pages[state.pages.length-1]
-                        page.locationKey = key    
+                }
+                else {
+                    currLocationState = state.currLocationState
+                    if(currLocationState != null) {
+                        sessionStorage.setItem(key, JSON.stringify(currLocationState))
                         return {
                             ...state,
-                            locationKey: key,
-                            loading: false,
-                            error: null,
-                            page: page.page
+                            loading: false, error: null,
+                            page: currLocationState.page,
+                            filters: currLocationState.filters,
+                            currLocationState: null
                         }
-                   }
-                   else {
-                       return { 
-                           ...state,
-                           locationKey: key
-                       }
-                   }  
-                }         
+                    }
+                    else return {
+                        ...state,
+                        currLocationKey: key
+                    }
+                }
             }
-            else return {
-                ...state
-            }
+            return state
         }
         case FETCH_RECIPES_PAGE_SUCCESS:
-        case FETCH_RECIPES_PAGE_BY_URI_SUCCESS:
             {
-                const page = {
-                    locationKey: state.locationKey,
-                    page: action.payload.page
+                const locationState = {
+                    page: action.payload.page,
+                    filters: action.payload.filters
                 }
-                state.pages.push(page)
-                return {
+                if(state.currLocationKey) {
+                    sessionStorage.setItem(state.currLocationKey, JSON.stringify(locationState))
+                    return {
+                        ...state,
+                        loading: false,
+                        error: null,
+                        currLocationKey: null,
+                        page: action.payload.page,
+                        filters: action.payload.filters
+                    }
+                }
+                else return {
                     ...state,
                     loading: false,
                     error: null,
-                    page: page.page
+                    currLocationState: locationState,
+                    page: action.payload.page,
+                    filters: action.payload.filters
                 }
-            }            
+            }         
         default :
             return state
     }

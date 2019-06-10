@@ -183,7 +183,7 @@ const style = {
         ul_suggestions : {
             position: 'absolute',
             left:'auto',
-            top: '200px',
+            top: '170px',
             cursor:'pointer'
         },
         list_style : {
@@ -213,6 +213,11 @@ const style = {
             width: '250px',
             height: '300px',
             margin: 'auto'
+        },
+        small : {
+            width: '60px',
+            height: '60px',
+            margin: 'auto'
         }
     },
     list : {
@@ -236,8 +241,7 @@ const style = {
     },
     card : {
         width : {
-            width: '21.5rem',
-            cursor:'pointer'
+            width: '21.5rem'
         },
         size_33 : {
             width:"33.5rem"
@@ -251,6 +255,9 @@ const style = {
         recipe_size : {
             width: '21.5rem',
             height:'21.5rem'
+        },
+        pointer: {
+            cursor:'pointer'
         }
     },
     

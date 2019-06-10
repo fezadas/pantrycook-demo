@@ -8,6 +8,7 @@ import Style from '../../pantrycook-features'
 import { isAuthenticated } from './../../storageUtils'
 
 const position = Style.position
+const image = Style.image
 
 class ShoppingLists extends React.Component {
 
@@ -52,6 +53,7 @@ class ShoppingLists extends React.Component {
         }
 
         if(shoppingLists) {
+            console.log(shoppingLists)
             return(
                 <div className="container" style= {position.list_centered_style}>
                     <h1 className="jumbotron-heading">Shopping Lists</h1>
@@ -66,10 +68,16 @@ class ShoppingLists extends React.Component {
                         </form>
                     </div>
                     <div className="row">
-                     {shoppingLists && shoppingLists.shoppingLists.map(elem => {
+                    {shoppingLists && shoppingLists.shoppingLists.map(elem => {
                     return <ShoppingListItem key={elem.id} shoppingListInfo = {elem}/>
-                })}
-                </div> 
+                    })}
+                    </div>
+                    {shoppingLists.size == 0 && 
+                     <div>
+                        <img style = {image.small} src="/images/sad.png" className="rounded mx-auto d-block" alt=""/>
+                        <p>No shopping lists to show.</p>
+                     </div>
+                    }
                 </div>
             )
         } else return null

@@ -11,7 +11,7 @@ const Navbar = (props) => {
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
       <div className="container">
         <a className="navbar-brand" href="/">
-          <img src="images/cooker.png" alt=""></img> 
+          <img src="/images/cooker.png" alt=""></img> 
           <span> </span>Pantry Cook
         </a>
         <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">

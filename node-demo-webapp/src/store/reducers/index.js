@@ -25,7 +25,7 @@ export default (history) => persistReducer(
     {
         key: 'root',
         storage,
-        whitelist: ['pantryRecipe'],
+        whitelist: [],
     },
     rootReducer(history),
 )

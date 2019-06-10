@@ -10,7 +10,7 @@ import Users from './user'
 class PantryCookApi {
 
     constructor() {
-        const SCHEMA_AUTHORITY = 'http://35.204.230.227' //'http://localhost:61549'
+        const SCHEMA_AUTHORITY =  'http://localhost:61549'//'http://35.204.230.227'
         const BASE_URL = `${SCHEMA_AUTHORITY}/api`
 
         this.auth = new Auth(BASE_URL)

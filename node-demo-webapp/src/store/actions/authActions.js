@@ -15,7 +15,7 @@ const loginFailure = error => ({
 
 const loginSuccess = (tokens,username) => ({
     type: LOGIN_SUCCESS,
-    payload: { tokens,username}
+    payload: {tokens,username}
 })
 
 const signUpFailure = error => ({
@@ -39,6 +39,7 @@ export const signIn = (credentials) => {
                 dispatch(loginSuccess(tokens,username))
             })
             .catch(error => {
+                console.log(error)
                 dispatch(signUpFailure(error))
             })
     }
