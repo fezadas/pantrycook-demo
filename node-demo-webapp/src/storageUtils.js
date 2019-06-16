@@ -18,10 +18,14 @@ export default {
 }
 
 export function isAuthenticated() {
+    
     var encrToken = localStorage.getItem(KEY_REFRESH_TOKEN)
     if(!encrToken) return null
     return decryptToken(encrToken)
-    //return localStorage.getItem(KEY_REFRESH_TOKEN)
+    /*
+    const rToken = localStorage.getItem(KEY_REFRESH_TOKEN)
+    return rToken == undefined || rToken == null ? false : true
+    */
 }
 
 function saveTokens(tokens) {
@@ -46,8 +50,7 @@ function getTokens() {
         accessToken: accessToken,
         expireDate: localStorage.getItem(KEY_EXPIRE_DATE),
         refreshToken:refreshToken
-    }
-    
+    }    
 }
 
 export function getItem(key) {
@@ -68,7 +71,7 @@ function getAccessToken(refreshToken) {
 }
 
 function encryptToken(token){
-    return CryptoJS.AES.encrypt(token,password);
+    return CryptoJS.AES.encrypt(token, password);
 }
 
 function decryptToken(token){

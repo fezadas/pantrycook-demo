@@ -33,7 +33,7 @@ class PantryListEdit extends React.Component {
                        <h5 className="card-title">
                            {ing.Name}
                        </h5>
-                       <img style = {image.small} src="/images/harvest.png"></img>
+                       <img style = {image.small} src={ing.PictureUrl}/>
                        <div className="card-body">
                            <h6 className="card-subtitle mb-2 text-muted">
                                {ing.Quantity} {ing.Unity}

@@ -12,9 +12,6 @@ const position = Style.position
 class UserInfo extends React.Component {
 
     componentDidMount(){
-        if(!isAuthenticated()){
-            this.props.redirectLogin()
-        }
         const login = getItem("username")
         this.props.getUserInfo(login)
     }

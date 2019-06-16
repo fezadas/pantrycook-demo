@@ -5,7 +5,7 @@ import SignedOutLinks from './SignedOutLinks'
 import { isAuthenticated } from './../../storageUtils'
 
 const Navbar = (props) => {
-  const { username} = props
+  const { username } = props
   const links = isAuthenticated() ? <SignedInLinks username={username} /> : <SignedOutLinks />
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">

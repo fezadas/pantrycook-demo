@@ -10,12 +10,15 @@ class PantryEditForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            quantity:''
+            quantity:'',
+            cannotSaveChanges:false
         }
     }
 
     onQuantityChange(value, id){
-        this.setState(()=>({id,quantity:value}))
+        const cannotSaveChanges = isNaN(value) || value <= 0 
+            ? true : false
+        this.setState(()=>({id,quantity:value,cannotSaveChanges}))
     }
 
     editItem = (e) =>{
@@ -23,7 +26,8 @@ class PantryEditForm extends React.Component {
         let ingredient = this.state
         this.props.editIng(ingredient);
         this.setState({
-            quantity: ""
+            quantity: "",
+            cannotSaveChanges:false
         });
     }
 
@@ -33,7 +37,10 @@ class PantryEditForm extends React.Component {
             <form autoComplete="off" onSubmit={this.editItem.bind(this)}>
                 <div style={form.edit_box_position} className="input-group input-group-sm mb-3">
                 <div className="input-group-prepend">
-                    <button type="submit" className="btn btn-outline-secondary" id="button-addon1">Edit</button>
+                    <button 
+                     disabled={this.state.cannotSaveChanges}
+                     type="submit" className="btn btn-outline-secondary" id="button-addon1">Edit
+                    </button>
                 </div>
                 <input id={this.props.ing.Id} value={quantity} onChange={e=>this.onQuantityChange(e.target.value, this.props.ing.Id)} name="quantity" 
                 type="text" className="form-control" placeholder="New quantity" aria-label="Example text with button addon" 

@@ -8,7 +8,6 @@ import ErrorAlert from '../../layout/ErrorAlert'
 import { push, replace } from 'connected-react-router'
 import { fetchRecipesPage, fetchRecipesPageByUri } from '../../../store/actions/pantryRecipeActions'
 import Style from '../../../pantrycook-features'
-import { isAuthenticated } from './../../../storageUtils'
 
 const position = Style.position
 
@@ -18,12 +17,9 @@ class PantryRecipeList extends React.Component {
         super(props)
         this.state = { pageLimit: 4, query: null, //query without page
             searchIngs: [], searchCat: null } 
-    }
+    }z
    
     componentDidMount() {
-        if(!isAuthenticated())
-            return this.props.navigateToSignIn()
-
         const queryParams = analyseQuery(this.props.location.search)
         this.setState({ searchCat: queryParams.category, searchIngs: queryParams.ingredients })
         this.props.fetchRecipesPage(

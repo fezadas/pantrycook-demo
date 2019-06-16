@@ -10,8 +10,9 @@ const position = Style.position
 class Recipes extends React.Component {
 
     componentDidMount() {
-        this.props.getRandomRecipes(10)
+        this.props.getRandomRecipes(12)
     }
+    
     render() {
         const { loading, res, error } = this.props
         if(error)

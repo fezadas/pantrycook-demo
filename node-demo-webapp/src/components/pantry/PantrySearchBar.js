@@ -5,7 +5,6 @@ import Pantry from './../pantry/Pantry'
 import { push } from 'connected-react-router'
 import ErrorAlert from './../../components/layout/ErrorAlert'
 import Style from '../../pantrycook-features'
-import { isAuthenticated } from './../../storageUtils'
 
 const position = Style.position
 const form = Style.form
@@ -20,11 +19,7 @@ class PantrySearchBar extends React.Component {
     }
 
     componentDidMount() {
-        if(!isAuthenticated()) {
-            this.props.redirectLogin()
-        } else {
-            this.props.searchIngredients()
-        }
+        this.props.searchIngredients()
     }
 
     handleChange(e) {
@@ -69,13 +64,13 @@ class PantrySearchBar extends React.Component {
         const ingredients = res.ingredients 
         return (
             <div>
-                <div className="dropdown-divider"></div>
                 <div className="container" style={position.top}>
+                <br></br>
                 <div className="input-group mb-3">
                 <div className="input-group-prepend">
                     <button className="btn btn-outline-secondary" onClick={this.handleClick.bind(this)} type="button">Search</button>
                 </div>
-                <input type="text" id="suggestion" onChange={this.handleChange.bind(this)} className="form-control" placeholder=" write your ingredient name here" aria-label="" aria-describedby="basic-addon1"/>
+                <input autoComplete="off" type="text" id="suggestion" onChange={this.handleChange.bind(this)} className="form-control" placeholder=" write your ingredient name here" aria-label="" aria-describedby="basic-addon1"/>
                 </div>
                 <button style={form.button_space} className="btn btn-success" type="button" onClick={this.refreshClick.bind(this)}>Refresh Pantry</button>
                 <button className="btn btn-warning" type="button" onClick={this.navigateClick.bind(this)}>Edit Pantry</button>
@@ -98,8 +93,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         searchIngredients: (suggestion) => dispatch(fetchPantry(suggestion)),
-        navigateToPantryEdit: () => dispatch(push(`/pantry/edit`)),
-        redirectLogin: () => dispatch(push(`/signin`))
+        navigateToPantryEdit: () => dispatch(push(`/pantry/edit`))
     }
 }
 

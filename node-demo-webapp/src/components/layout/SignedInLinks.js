@@ -13,6 +13,7 @@ class SignedInLinks extends React.Component {
   }
 
   render(){
+    const username = this.props.username
     return (
       <ul className="navbar-nav ml-auto">
           <li className="nav-item">
@@ -27,6 +28,11 @@ class SignedInLinks extends React.Component {
           <li className="nav-item">
             <NavLink className="nav-link" to="/contacts">Contact</NavLink>
           </li>
+          {username && username == 'admin' && 
+          <li className="nav-item">
+            <NavLink className="nav-link" to="/tools">Tools</NavLink>
+          </li>
+          }
           <li className="nav-item">
             <a className="nav-link" onClick={this.onLogout.bind(this)}> SignOut</a>
           </li>

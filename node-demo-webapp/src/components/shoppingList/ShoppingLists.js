@@ -13,9 +13,7 @@ const image = Style.image
 class ShoppingLists extends React.Component {
 
     componentDidMount() {
-        isAuthenticated() ? 
-            this.props.getShoppingLists() 
-            : this.props.redirectLogin()
+        this.props.getShoppingLists() 
     }
 
     handleChange = (e) => {

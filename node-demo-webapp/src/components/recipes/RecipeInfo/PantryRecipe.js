@@ -39,11 +39,13 @@ class PantryRecipe extends React.Component {
             'Items': []
         }
         ingredients.forEach(ing => {
-            if(ing.quantity != null && ing.userQuantity < ing.quantity)
-                shoppingList.Items.push({
+            var q = ing.quantity == null ? 1 : ing.quantity
+            if(ing.userQuantity < q){
+               shoppingList.Items.push({
                     'idIngredient': ing.id,
-                    'quantity': ing.quantity - ing.userQuantity
-                })
+                    'quantity': q - ing.userQuantity
+                }) 
+            } 
         });
         this.props.createShoppingList(
             shoppingList, 
@@ -51,13 +53,13 @@ class PantryRecipe extends React.Component {
         
     }
 
-    render() {
-         
+    render() {         
         const { loading, res, error, shoppingListState, pantryState } = this.props
         const ownedIngredientsPercentage = res 
             ? (res.numOwnedIngredients / res.ingredients.length) * 100
             : null
-            
+           console.log(res) 
+
         return (
             <div style={position.top_not_centered} className="container">
             <div className="dropdown-divider"></div>
@@ -77,6 +79,7 @@ class PantryRecipe extends React.Component {
             {res &&
                 <div>
                 <div className="card mb-3">
+                <br/>
                     <img style={image.size} src={res.pictureUrl} className="card--top" alt="..."/>
                     <div className="card-body">
                         <h5 className="card-title">
@@ -88,17 +91,20 @@ class PantryRecipe extends React.Component {
                         <p className="card-text">
                             {res.description}
                         </p>   
-                        <p>Categories</p>      
-                        {res.categories.map(cat => 
-                            <p key={cat} style={card.display} className="card-text">
-                                <small className="text-muted">{cat} </small>
-                            </p>)
-                        }
+                        <p className="font-weight-bold">Categories
+                        <span> </span>
+                         {res.categories.map(cat => 
+                            <span key={cat} className="card-text">
+                                <span className="badge badge-secondary"> {cat}</span><span> </span>
+                            </span>)
+                         }
+                        </p>        
+                        
                     </div>
                 </div>
                 {ownedIngredientsPercentage == 100 ? (
                     <div>
-                        <button onClick={this.makeRecipe.bind(this, res.ingredients)}>
+                        <button type="button" className="btn btn-primary"  onClick={this.makeRecipe.bind(this, res.ingredients)}>
                             Make recipe
                         </button>
                         {!pantryState.loading && <p>Loading...</p>}
@@ -115,7 +121,8 @@ class PantryRecipe extends React.Component {
                         {shoppingListState.error && <ErrorAlert />}
                     </div>
                 )}
-                <IngredientsList ingredients={ res.ingredients}/>                  
+                <IngredientsList ingredients={ res.ingredients}/>   
+                <br/>               
                 </div>
             }
             </div>

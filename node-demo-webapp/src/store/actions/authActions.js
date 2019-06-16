@@ -1,26 +1,20 @@
-export const LOGIN_BEGIN = 'LOGIN_BEGIN'
-export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
-export const LOGIN_ERROR = 'LOGIN_ERROR'
-export const SIGNUP_ERROR = 'SIGNUP_ERROR'
+export const BEGIN = 'BEGIN'
+export const LOGIN = 'LOGIN'
+export const ERROR = 'ERROR'
 export const LOGOUT = 'LOGOUT'
 
 const loginBegin = () => ({
-    type: LOGIN_BEGIN
+    type: BEGIN
 })
 
-const loginFailure = error => ({
-    type: LOGIN_ERROR,
+const failure = error => ({
+    type: ERROR,
     payload: { error }
 })
 
-const loginSuccess = (tokens,username) => ({
-    type: LOGIN_SUCCESS,
+const login = (tokens,username) => ({
+    type: LOGIN,
     payload: {tokens,username}
-})
-
-const signUpFailure = error => ({
-    type: SIGNUP_ERROR,
-    payload: { error }
 })
 
 export const logout = () => ({
@@ -36,11 +30,10 @@ export const signIn = (credentials) => {
             .then(tokens => {
                 storageUtils.saveTokens(tokens)
                 storageUtils.saveItem('username', username)
-                dispatch(loginSuccess(tokens,username))
+                dispatch(login(tokens,username))
             })
             .catch(error => {
-                console.log(error)
-                dispatch(signUpFailure(error))
+                dispatch(failure(error))
             })
     }
 }
@@ -56,11 +49,11 @@ export const signUp = (credentials) => {
                     .then(tokens => {
                         storageUtils.saveTokens(tokens)
                         storageUtils.saveItem('username', username)
-                        dispatch(loginSuccess(tokens,username))
+                        dispatch(failure(tokens,username))
                     })
             })
             .catch(error => {
-                dispatch(loginFailure(error))
+                dispatch(failure(error))
             })
     }
 }
@@ -71,3 +64,4 @@ export const signOut = () => {
         dispatch(logout())
     }
 }
+

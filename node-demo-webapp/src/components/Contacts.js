@@ -12,7 +12,9 @@ const Contacts = () => {
                 <h1 className="display-4 font-weight-normal">
                     Pantry Cook
                 </h1>
+                <br/>
                 <img style= {image.small} src="/images/cooker.svg" alt=""></img> 
+                <br/>
                 <p className="lead font-weight-small">
                     Developed for academic purposes by
                 </p>

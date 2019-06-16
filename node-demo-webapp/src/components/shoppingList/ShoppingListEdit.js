@@ -3,10 +3,9 @@ import { connect } from 'react-redux'
 import { push } from 'connected-react-router'
 import { fetchShoppingList, updateShoppingList } from '../../store/actions/shoppingListActions'
 import ErrorAlert from '../layout/ErrorAlert'
-import AutoSuggest from './../AutoSuggest'
+import AutoSuggest from '../AutoSuggest'
 import PantryCookApi from './../../data/pantryCookApi'
 import Style from '../../pantrycook-features'
-import { isAuthenticated } from './../../storageUtils'
 import theme from '../../theme.css'
 
 const position = Style.position
@@ -26,8 +25,6 @@ class ShoppingListEdit extends React.Component {
     }
 
     componentDidMount() {
-        if(!isAuthenticated())
-            return this.props.redirectLogin()
         this.props.getShoppingList(
             this.state.id, 
             (shoppingList) => { this.setState({ shoppingList }) })

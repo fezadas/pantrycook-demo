@@ -19,8 +19,8 @@
     "react-router-redux": "^4.0.8",
     "react-scripts": "2.1.8",
     "redux": "^4.0.1",
-    "redux-persist": "^5.10.0",
     "redux-thunk": "^2.3.0",
+    "secure-ls": "^1.2.5",
     "throttle-debounce": "^2.1.0"
   },
   "scripts": {

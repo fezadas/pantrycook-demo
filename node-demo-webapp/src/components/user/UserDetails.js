@@ -1,21 +1,23 @@
 import React from 'react'
 import Style from './../../pantrycook-features'
+import ChangePassword from './ChangePassword'
 
 const position = Style.position
 const image = Style.image
+const form = Style.form
 
 class UserDetails extends React.Component {
     constructor(props){
         super(props)
 
     }
-    render() {
-        
+    render() {        
         const userInfo = this.props.userInfo
         if(userInfo){
           return(
+        <div>
         <div style={position.centered}>
-        <div className="card mb-3">
+        <div className="card mb-3 bg-light">
         <div className="row no-gutters">
             <div className="col-md-4">
             <img style = {image.size_2} src="/images/user_default.svg" className="card-img" alt="..."/>
@@ -23,15 +25,14 @@ class UserDetails extends React.Component {
             <div className="col-md-8">
             <div className="card-body">
                 <h5 className="card-title"> {userInfo.name}  </h5>
-                <p class="font-weight-bold">{userInfo.login}</p>
-                
-                <p className="card-text">Aqui estará a descrição que o utilizador quiser inserir, falta depois mudar na base de dados para ter esse campo.</p>
-                <p className="card-text"><small className="text-muted">Data criação do perfil talvez, ou outra informação.</small></p>
+                <p className="font-weight-bold">{userInfo.login}</p>
             </div>
             </div>
         </div>
-        </div>
+        <ChangePassword/>
+        </div >
         </div>  
+        </div>
           )}
         else return <div></div>  
     }

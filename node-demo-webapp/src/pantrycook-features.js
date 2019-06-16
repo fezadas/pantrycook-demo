@@ -122,6 +122,12 @@ const style = {
         edit_box_position : {
             width: '150px',
             left:'120px'
+        },
+        size_100 :{
+            marginLeft: 'auto',
+            marginRight: 'auto' ,
+            width: 'auto',
+            textAlign:'center'
         }
     },
     autoSuggest : {
@@ -210,8 +216,8 @@ const style = {
             margin: 'auto'
         },
         size_2 : {
-            width: '250px',
-            height: '300px',
+            width: '200px',
+            height: '250px',
             margin: 'auto'
         },
         small : {
@@ -226,6 +232,10 @@ const style = {
         },
         ul_style : {
             display:'inline-table'
+        },
+        ul_style_left : {
+            display:'inline-table',
+            align:"left"
         },
         li_style : {
             width: '21.5rem',
@@ -258,6 +268,10 @@ const style = {
         },
         pointer: {
             cursor:'pointer'
+        },
+        size_header:{
+            fontSize: '0.85em',
+            fontWeight: 'bold',
         }
     },
     

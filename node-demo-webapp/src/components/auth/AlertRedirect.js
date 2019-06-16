@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import { push } from 'connected-react-router'
 import { signOut } from '../../store/actions/authActions'
 import Style from '../../pantrycook-features'
-
 const position = Style.position
 
 class AlertRedirect extends React.Component {
@@ -38,6 +37,5 @@ const mapStateToProps = (state) => {
        tokens: state.auth.tokens
     }
 }
-
 
 export default connect(mapStateToProps,mapDispatchToProps)(AlertRedirect)

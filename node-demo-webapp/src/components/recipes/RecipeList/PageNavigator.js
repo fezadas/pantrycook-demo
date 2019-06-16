@@ -1,6 +1,5 @@
 import React from 'react'
 import Style from '../../../pantrycook-features'
-
 const form = Style.form
 
 class PageNavigator extends React.Component {
@@ -13,6 +12,11 @@ class PageNavigator extends React.Component {
         const links = this.props.links
         return ( 
             <div>
+                {links.first &&
+                    <button style={form.button_right_padding} type="button" className="btn btn-secondary" onClick={() => this.handlePageChange(links.first.href)}> 
+                        First
+                    </button>
+                }
                 {links.prev &&
                     <button style={form.button_right_padding} type="button" className="btn btn-secondary" onClick={() => this.handlePageChange(links.prev.href)}> 
                         Prev

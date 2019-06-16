@@ -1,9 +1,8 @@
 import React from 'react'
 import Ingredient from './../ingredient/Ingredient'
 import Style from './../../pantrycook-features'
-
 const image = Style.image
-const position = Style.position
+
 /**
  * Represents the List of Pantry Ingredients
  */
@@ -12,7 +11,7 @@ const Pantry = ({ingredients})=>{
             <div>
                 <div className="dropdown-divider"></div>
                 <div className="row">
-               {ingredients && ingredients.length > 0 && ingredients.map(ingredient => {
+                {ingredients && ingredients.length > 0 && ingredients.map(ingredient => {
                     return (
                             <Ingredient key={ingredient.Id} ingredient={ingredient}/>
                     )

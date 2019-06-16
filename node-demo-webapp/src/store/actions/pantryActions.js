@@ -60,7 +60,6 @@ export function fetchPantry(suggestion, suggestionLimit) {
         dispatch(fetchBegin())
         try{
             const access_token = await getAccessToken(storageUtils, PantryCookApi)
-            console.log(access_token)
             const pantry =  await PantryCookApi.pantryIngredients.getList(access_token, suggestion)
             dispatch(fecthPantrySuccess(pantry))
         }catch(error){

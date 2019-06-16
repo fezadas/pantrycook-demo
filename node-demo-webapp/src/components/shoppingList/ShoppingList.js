@@ -5,7 +5,6 @@ import { fetchShoppingList, deleteShoppingList, addShoppingListItemsToPantry } f
 import ShoppingListIngredients from './ShoppingListIngredients'
 import ErrorAlert from '../layout/ErrorAlert'
 import Style from '../../pantrycook-features'
-import { isAuthenticated } from './../../storageUtils'
 
 const shopping = Style.shoppingList
 const position = Style.position
@@ -17,14 +16,9 @@ class ShoppingList extends React.Component {
     }
 
     componentDidMount() {
-        if(!isAuthenticated()){
-            this.props.redirectLogin()
-        }
-        else{
-            const sl_id = this.props.match.params.sl_id
-            this.state.id = sl_id
-            this.props.getShoppingList(sl_id)
-        }
+        const sl_id = this.props.match.params.sl_id
+        this.state.id = sl_id
+        this.props.getShoppingList(sl_id)
     }
 
     handleAddItemsToPantry() {

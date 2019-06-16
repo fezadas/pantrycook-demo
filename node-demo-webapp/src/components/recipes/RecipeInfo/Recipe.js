@@ -38,18 +38,26 @@ class Recipe extends React.Component {
                 {res && 
                 <div>
                 <div className="card mb-3">
+                <br/>
                 <img style={image.size} src={res.pictureUrl} className="card--top" alt="..."/>
                 <div className="card-body">
                     <h5 className="card-title">{res.name}</h5>
                     <p><a href={res.youtubeUrl}>Youtube demo</a></p>   
                     <p className="card-text">{res.description}</p>   
-                    <p>Categories</p>      
-                    {res.categories.map(cat => <p key={cat} style={card.display} className="card-text"><small className="text-muted">{cat}  </small></p>)}
+                    <p className="font-weight-bold">Categories
+                        <span> </span>
+                         {res.categories.map(cat => 
+                            <span key={cat} className="card-text">
+                                <span className="badge badge-secondary"> {cat}</span><span> </span>
+                            </span>)
+                         }
+                    </p> 
                 </div>
                 </div>
                 <div>
                     <IngredientsList auth = {true} ingredients = {res.ingredients}/>     
                 </div>
+                <br/>
                 </div>
                 }
             </div>

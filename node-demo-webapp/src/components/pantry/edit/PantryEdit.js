@@ -5,7 +5,6 @@ import { editPantryIngredient, removePantryIngredient, fecthPantrytoEdit, fillPa
 import PantryListEdit from '../edit/PantryListEdit'
 import ErrorAlert from '../../layout/ErrorAlert'
 import Style from '../../../pantrycook-features'
-import { isAuthenticated } from './../../../storageUtils'
 
 const position = Style.position
 const form = Style.form
@@ -23,10 +22,6 @@ class PantryEdit extends React.Component {
     }
 
     componentDidMount(){
-        if(!isAuthenticated()){
-            this.props.redirectLogin()
-        }
-        else
         this.props.getPantry()
     }
 
@@ -74,7 +69,6 @@ class PantryEdit extends React.Component {
     }
 
     onQuantityChange = (e) => {
-        console.log(this.state)
         const quantity = e.target.value;
         this.setState(()=>({quantity:quantity}))
     }
@@ -178,8 +172,7 @@ const mapStateToProps = (state) => {
         quantity:'',
         items: state.pantry.ingredients,
         suggestions:[],
-        ingredient:'',
-        auth: localStorage.getItem('access_token')
+        ingredient:''
     }
 }
 
@@ -188,14 +181,8 @@ const mapDispatchToProps = (dispatch) => {
         getPantry: () => dispatch(fecthPantrytoEdit(null,null)),
         fillPantry:(ingredient) => dispatch(fillPantryIngredient(ingredient)),
         removePantry:(id) => dispatch(removePantryIngredient(id)),
-        editPantry:(ingredient) => dispatch(editPantryIngredient(ingredient)),
-        redirectLogin: () => dispatch(push(`/signin`))
+        editPantry:(ingredient) => dispatch(editPantryIngredient(ingredient))
     }
 }
-
-//sugestões -> está a ser obtida a pantry do user e os ingredientes que ele não contem
-//sao usadas para fazer as sugestões. é carregado tudo ao inicio
-//no entanto tambem se poderia adoptar por fazer mais pedidos http para ir buscar
-//sugestoes com base no que o utilizador vai escrevendo
 
 export default connect(mapStateToProps,mapDispatchToProps)(PantryEdit)

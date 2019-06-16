@@ -1,13 +1,12 @@
 import {
     BEGIN,
     ERROR,
-    LOGIN,
-    LOGOUT
-} from '../actions/authActions'
+    RECIPES_SUCCESS,
+} from '../actions/adminActions'
 
-const initState = { loading: false, error: null, auth: false }
+const initState = { loading: false, error: null, info: null }
 
-const authReducer = (state = initState, action) => {
+const adminReducer = (state = initState, action) => {
     switch(action.type) {
         case BEGIN:
             return {
@@ -21,20 +20,16 @@ const authReducer = (state = initState, action) => {
                 loading: false,
                 error: action.payload.error
             }  
-        case LOGIN:
-            return {
-                loading: false,
-                error: null,
-                auth: true
-            }
-        case LOGOUT:
+        case RECIPES_SUCCESS:
             return {
                 ...state,
-                auth: false
+                loading: false,
+                error: null,
+                recipes:action.payload.recipes
             }
         default :
             return state
         }
 }
 
-export default authReducer 
+export default adminReducer 

@@ -1,4 +1,5 @@
 import Auth from './auth'
+import Admin from './admin'
 import Recipes from './recipes'
 import PantryRecipes from './pantryRecipes'
 import PantryIngredients from './pantryIngredients'
@@ -10,10 +11,11 @@ import Users from './user'
 class PantryCookApi {
 
     constructor() {
-        const SCHEMA_AUTHORITY =  'http://35.204.230.227'//'http://localhost:61549'
+        const SCHEMA_AUTHORITY =  'http://35.204.230.227'//'http://localhost:61549' 
         const BASE_URL = `${SCHEMA_AUTHORITY}/api`
 
         this.auth = new Auth(BASE_URL)
+        this.admin = new Admin(BASE_URL)
         this.recipes = new Recipes(BASE_URL)
         this.pantryRecipes = new PantryRecipes(SCHEMA_AUTHORITY, BASE_URL)
         this.pantryIngredients = new PantryIngredients(BASE_URL)
