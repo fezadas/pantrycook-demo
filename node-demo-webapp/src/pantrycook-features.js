@@ -217,9 +217,9 @@ const style = {
             'marginRight': 'auto'
         },
         size : {
-            width: '32%',
-            height: '26%',
-            margin: 'auto'
+            width:'18em',
+            'marginLeft':'auto',
+            'marginRight': 'auto'
         },
         size_2 : {
             width: '200px',
