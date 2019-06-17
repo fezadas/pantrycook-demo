@@ -34,7 +34,7 @@ class Recipe extends React.Component {
             )
         
         return (
-            <div style={position.top_not_centered} className="container">
+            <div style={position.top} className="container">
                 {res && 
                 <div>
                 <div className="card mb-3">

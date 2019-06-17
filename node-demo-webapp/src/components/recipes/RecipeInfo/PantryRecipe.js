@@ -61,7 +61,7 @@ class PantryRecipe extends React.Component {
            console.log(res) 
 
         return (
-            <div style={position.top_not_centered} className="container">
+            <div style={position.top} className="container">
             <div className="dropdown-divider"></div>
 
             {error && 
