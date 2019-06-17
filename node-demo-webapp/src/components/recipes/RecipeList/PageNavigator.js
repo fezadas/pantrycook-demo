@@ -13,22 +13,25 @@ class PageNavigator extends React.Component {
         return ( 
             <div>
                 {links.first &&
-                    <button style={form.button_right_padding} type="button" className="btn btn-secondary" onClick={() => this.handlePageChange(links.first.href)}> 
+                    <button  type="button" className="btn btn-primary" onClick={() => this.handlePageChange(links.first.href)}> 
                         First
                     </button>
                 }
+                <span> </span>
                 {links.prev &&
-                    <button style={form.button_right_padding} type="button" className="btn btn-secondary" onClick={() => this.handlePageChange(links.prev.href)}> 
+                    <button type="button" className="btn btn-secondary" onClick={() => this.handlePageChange(links.prev.href)}> 
                         Prev
                     </button>
                 }
+                <span> </span>
                 {links.next &&
                     <button  type="button" className="btn btn-secondary" onClick={() => this.handlePageChange(links.next.href)}> 
                         Next
                     </button>
                 }
+                <span> </span>
                 {links.last &&
-                    <button style={form.button_left_padding} type="button" className="btn btn-secondary" onClick={() => this.handlePageChange(links.last.href)}> 
+                    <button type="button" className="btn btn-primary" onClick={() => this.handlePageChange(links.last.href)}> 
                         Last
                     </button>
                 }

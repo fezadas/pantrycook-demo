@@ -3,6 +3,9 @@ import { NavLink } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { signOut } from '../../store/actions/authActions'
 import { push } from 'connected-react-router'
+import Style from './../../pantrycook-features'
+
+const link = Style.link
 
 class SignedInLinks extends React.Component {
   
@@ -34,7 +37,7 @@ class SignedInLinks extends React.Component {
           </li>
           }
           <li className="nav-item">
-            <a className="nav-link" onClick={this.onLogout.bind(this)}> SignOut</a>
+            <a style={link.pointer} className="nav-link" onClick={this.onLogout.bind(this)}> SignOut</a>
           </li>
           <li className="nav-item">
             <NavLink className="nav-link" to ="/user"> <span className="badge badge-success">{this.props.username}</span></NavLink>

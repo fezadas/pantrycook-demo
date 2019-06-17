@@ -27,10 +27,11 @@ class SignIn extends Component {
     }
 
     render() {
+        
         const { loading, authError } = this.props
         if(isAuthenticated())
             return <Redirect to='/' />
-     
+        console.log(authError)
         return (
             <div style={position.centered}>
                 <form className="form-signin" 
@@ -64,7 +65,7 @@ class SignIn extends Component {
                     }
                 </div>
                 <div>
-                    { authError ? <p style = {position.top_padding}>Invalid credentials.</p> : null }
+                    { authError != null ? <p style = {position.top_padding}>Invalid credentials.</p> : null }
                 </div>
                 </form>
             </div> 

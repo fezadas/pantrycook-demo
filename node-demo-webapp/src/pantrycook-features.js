@@ -52,6 +52,12 @@ const style = {
             top:'60px',
             'position': 'absolute',
         },
+        top_not_centered_2 : {
+            top:'60px',
+            'marginLeft': 'auto',
+            'marginRight': 'auto',
+            width:"50%"
+        },
         centered : {
             display: 'flex',
             'flexDirectionDirection': 'column',
@@ -211,8 +217,8 @@ const style = {
             'marginRight': 'auto'
         },
         size : {
-            width: '400px',
-            height: '350px',
+            width: '32%',
+            height: '26%',
             margin: 'auto'
         },
         size_2 : {
@@ -274,6 +280,11 @@ const style = {
             fontWeight: 'bold',
         }
     },
+    link: {
+        pointer: {
+            cursor:'pointer'
+        }
+    }
     
 }
 

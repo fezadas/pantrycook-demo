@@ -49,7 +49,7 @@ export const signUp = (credentials) => {
                     .then(tokens => {
                         storageUtils.saveTokens(tokens)
                         storageUtils.saveItem('username', username)
-                        dispatch(failure(tokens,username))
+                        dispatch(login(tokens,username))
                     })
             })
             .catch(error => {

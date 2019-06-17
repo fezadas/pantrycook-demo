@@ -59,7 +59,7 @@ export function getItem(key) {
 
 function getAccessToken(refreshToken) {
   const tokens = getTokens()
-  if (tokens.accessToken && Date.now() + 10000 <= tokens.expireDate) {
+  if (tokens.accessToken && Date.now() <= tokens.expireDate) {
       return Promise.resolve(tokens.accessToken)
   }
   return refreshToken(tokens.refreshToken)

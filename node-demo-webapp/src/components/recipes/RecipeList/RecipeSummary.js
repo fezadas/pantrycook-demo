@@ -15,7 +15,7 @@ const RecipeSummary = ({recipe}) => {
           <br/>
           <img className="card-img-top" src={recipe.pictureUrl} key={recipe.id} style={image.centered_2} alt="Card image cap"/>
           <div className="card-body">
-            {recipe.name.length > 27 && 
+            {recipe.name.length > 25 && 
             <h6 style={size.size_header} className="card-title">
                 <Link to={`/recipes/${recipe.id}`} key={recipe.id}>
                   {recipe.name}
@@ -27,7 +27,7 @@ const RecipeSummary = ({recipe}) => {
                 </div>
             </h6>
             }
-            {recipe.name.length <= 27 && 
+            {recipe.name.length <= 25 && 
             <h6 className="card-title">
                 <Link to={`/recipes/${recipe.id}`} key={recipe.id}>
                   {recipe.name}
