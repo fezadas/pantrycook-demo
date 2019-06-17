@@ -80,7 +80,7 @@ class PantryRecipe extends React.Component {
                 <div>
                 <div className="card mb-3">
                 <br/>
-                    <img style={image.size} src={res.pictureUrl} className="card--top" alt="..."/>
+                    <img style={image.size} src={res.pictureUrl} className="card-img-top" alt="..."/>
                     <div className="card-body">
                         <h5 className="card-title">
                             {res.name}
