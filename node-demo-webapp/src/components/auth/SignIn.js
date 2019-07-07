@@ -31,7 +31,7 @@ class SignIn extends Component {
         const { loading, authError } = this.props
         if(isAuthenticated())
             return <Redirect to='/' />
-        console.log(authError)
+        console.log(this.props)
         return (
             <div style={position.centered}>
                 <form className="form-signin" 

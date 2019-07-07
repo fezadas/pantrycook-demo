@@ -79,6 +79,8 @@ class ShoppingListEdit extends React.Component {
         const { loading, error } = this.props
         const shoppingList = this.state.shoppingList
         
+        console.log(shoppingList)
+
         if(error)
             return (
                 <div style={position.centered_style}>
@@ -87,7 +89,13 @@ class ShoppingListEdit extends React.Component {
             )
             
         if(loading)
-            return <div>Loading...</div>;
+        return (
+            <div style = {position.centered} className="text-center">
+            <div className="spinner-border text-primary" role="status">
+                <span className="sr-only">Loading...</span>
+            </div>
+            </div>
+        )
         
         return (
             <div>
@@ -121,11 +129,11 @@ class ShoppingListEdit extends React.Component {
                                     value={this.props.shoppingList.items[idx].quantity}
                                     onChange={this.handleOnQuantityChange.bind(this, idx)}
                                     className="form-control" 
-                                    placeholder="Shopping List Ingredient" 
+                                    placeholder="Add quantity" 
                                     aria-label="Shopping List Ingredient" 
                                     aria-describedby="basic-addon2"/>
                                 <div className="input-group-append">
-                                    <span className="input-group-text" id="basic-addon2">{item.unity}</span>
+                                    <span className="input-group-text" id="basic-addon2">{item.unit}</span>
                                 </div>
                                 </div>
                             </li>

@@ -17,7 +17,7 @@ class PantryRecipeList extends React.Component {
         super(props)
         this.state = { pageLimit: 4, query: null, //query without page
             searchIngs: [], searchCat: null } 
-    }z
+    }
    
     componentDidMount() {
         const queryParams = analyseQuery(this.props.location.search)

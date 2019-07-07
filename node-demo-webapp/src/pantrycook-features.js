@@ -66,6 +66,13 @@ const style = {
             'textAlign': 'center',
             'minHeight': '100vh'
         },
+        centered_top : {
+            'top': '60px',
+            'position': 'absolute',
+            top:'60px',
+            'marginLeft': 'auto',
+            'marginRight': 'auto',
+        },
         centered_style : {
             display: 'flex',
             top:'60px',
@@ -94,6 +101,10 @@ const style = {
         left : {
             position: 'absolute',
             left: 'auto'
+        },
+        textAlign: {
+            textAlign:"center",
+            margin:'auto'
         }
     },
     form : {
@@ -133,6 +144,18 @@ const style = {
             marginLeft: 'auto',
             marginRight: 'auto' ,
             width: 'auto',
+            textAlign:'center'
+        },
+        size_text_area :{
+            marginLeft: 'auto',
+            marginRight: 'auto' ,
+            width: '500px',
+            textAlign:'center'
+        },
+        size_input :{
+            marginLeft: 'auto',
+            marginRight: 'auto' ,
+            width: '350px',
             textAlign:'center'
         }
     },
@@ -236,6 +259,9 @@ const style = {
         row_width : {
             width: '21.5rem'
         },
+        row_width_2 : {
+            width: '17.5rem'
+        },
         ul_style : {
             display:'inline-table'
         },
@@ -253,7 +279,10 @@ const style = {
         top : {
             position: 'inherit',
             'top': '350px',
-          }
+          },
+        inherit : {
+            position: 'inherit'
+        }  
     },
     card : {
         width : {
@@ -264,6 +293,9 @@ const style = {
         },
         size_12 : {
             width: '12.5rem'
+        },
+        size_18 : {
+            width: '18.5rem'
         },
         display : {
             display: 'inline'

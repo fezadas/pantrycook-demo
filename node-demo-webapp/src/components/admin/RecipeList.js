@@ -1,29 +1,40 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { getRecipes } from './../../store/actions/adminActions'
+import { getRecipes,deleteRecipe } from './../../store/actions/adminActions'
 import ErrorAlert from './../layout/ErrorAlert'
 import Style from './../../pantrycook-features'
+import { push } from 'connected-react-router'
 
 const position = Style.position
-const list = Style.list
+const card = Style.card
 const image = Style.image
 
 class RecipeList extends React.Component {
 
-    componentDidMount() {
-        this.props.getRecipes()
+    removeItem(id) {
+        console.log(id)
+        this.props.deleteRecipe(id);
     }
-    
+
+    componentDidMount() {
+        this.props.getRecipes() 
+    }
+
     render(){
         const {loading,error,info} = this.props
+
+        console.log(info)
+
         if(info){
             return(
                 <div>
-                    <div class="jumbotron mt-3">
-                    <p class="lead">Number of recipes: {info.size}</p>
-                    <p class="lead">Number of ingredients: unknown </p>
-                    <p class="lead">Number of users: unknown</p>
-                    <a class="btn btn-lg btn-primary" href="" role="button">Add Recipe »</a>
+                    <div className="jumbotron mt-3">
+                    <p className="lead">Number of recipes: {info.size}</p>
+                    <button onClick={this.props.navigateToRecipe.bind(this)} className="btn btn-lg btn-primary">
+                        Add Recipe »</button>
+                    <span> </span>
+                    <button onClick={this.props.navigateToRecipeMealDb.bind(this)} className="btn btn-lg btn-primary">
+                        Add Recipe from MealDb »</button>
                     </div>
                     <ul style={position.top_not_centered_2} className="list-group">
                         {info.recipes.map(recipe => {
@@ -32,8 +43,14 @@ class RecipeList extends React.Component {
                                 <span><img src={recipe.pictureUrl} style={image.small} /></span>
                                 {recipe.name} 
                                 <span className="badge badge-primary badge-pill">
-                                    {recipe.categories[0]} | {recipe.categories[1]}
-                                </span> 
+                                {recipe.categories.map(cat => {
+                                    return(
+                                     <span key={cat}> {cat}  </span>
+                                 )
+                                })}</span> 
+                                <span style={card.pointer} onClick={this.removeItem.bind(this,recipe.id)} className="badge badge-danger badge-pill">
+                                    Delete
+                                </span>
                             </li>)
                         })}
                     </ul>
@@ -47,6 +64,9 @@ class RecipeList extends React.Component {
 const mapDispatchToProps = (dispatch) => {
     return {
       getRecipes: () => dispatch(getRecipes()),
+      navigateToRecipe: () => dispatch(push('/tools/recipe')),
+      navigateToRecipeMealDb: () => dispatch(push('/tools/recipemealdb')),
+      deleteRecipe: (id) => dispatch(deleteRecipe(id))
     }
 }
 

@@ -82,12 +82,12 @@ export function fecthPantrytoEdit() {
     }
 }
 
-export function updatePantryIngredientsQuantity(ingredientsList, handleSuccess, handleNotPossibleError) {
+export function updatePantryIngredientsQuantity(recipeId, handleSuccess, handleNotPossibleError) {
     return async (dispatch, getState, { PantryCookApi, storageUtils }) => {
         dispatch(fetchBegin())
         try{
             const access_token = await getAccessToken(storageUtils, PantryCookApi)
-            await PantryCookApi.pantryIngredients.patchDiscountQuantities(ingredientsList, access_token)
+            await PantryCookApi.pantryIngredients.patchDiscountQuantities(recipeId, access_token)
             dispatch(updatePantryIngredientsQuantitySuccess())
             handleSuccess()
         }catch(error){

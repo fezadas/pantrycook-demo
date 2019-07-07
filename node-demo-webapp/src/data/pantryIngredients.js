@@ -72,11 +72,11 @@ class PantryIngredients {
         return fetchJSON(`${this.BASE_PANTRY_URL}/${id}`, options)
     }
 
-    patchDiscountQuantities(ingredients, access_token) {
+    patchDiscountQuantities(recipeId, access_token) {
         const options = {
             body: JSON.stringify({
                 'Operation': 'discountQuantities',
-                'DiscountQuantityList': { 'ingredients': ingredients }
+                'recipeId': recipeId
             }),
             method: 'PATCH',
             headers: { 

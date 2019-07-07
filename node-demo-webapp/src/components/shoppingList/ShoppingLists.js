@@ -5,10 +5,10 @@ import ShoppingListItem from '../shoppingList/ShoppingListItem'
 import { push } from 'connected-react-router'
 import ErrorAlert from './../../components/layout/ErrorAlert'
 import Style from '../../pantrycook-features'
-import { isAuthenticated } from './../../storageUtils'
 
 const position = Style.position
 const image = Style.image
+const list = Style.list
 
 class ShoppingLists extends React.Component {
 
@@ -53,7 +53,7 @@ class ShoppingLists extends React.Component {
         if(shoppingLists) {
             console.log(shoppingLists)
             return(
-                <div className="container" style= {position.list_centered_style}>
+                <div className="container" style={position.centered_top}>
                     <h1 className="jumbotron-heading">Shopping Lists</h1>
                     <p className="lead text-muted">These are your active shopping lists</p>
                     <div >
@@ -65,10 +65,12 @@ class ShoppingLists extends React.Component {
                             <button type="submit" className="btn btn-primary mb-2">Create List</button>
                         </form>
                     </div>
-                    <div className="row">
-                    {shoppingLists && shoppingLists.shoppingLists.map(elem => {
-                    return <ShoppingListItem key={elem.id} shoppingListInfo = {elem}/>
-                    })}
+                    <div className="container">
+                    <div style={list.inherit} className="row">
+                        {shoppingLists && shoppingLists.shoppingLists.map(elem => {
+                        return <ShoppingListItem key={elem.id} shoppingListInfo = {elem}/>
+                        })}
+                        </div>
                     </div>
                     {shoppingLists.size == 0 && 
                      <div>

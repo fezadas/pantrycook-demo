@@ -18,6 +18,9 @@ import ShoppingLists from './components/shoppingList/ShoppingLists'
 import ShoppingListEdit from './components/shoppingList/ShoppingListEdit'
 import UserInfo from './components/user/UserInfo'
 import Tools from './components/admin/Tools'
+import RecipeForm from './components/admin/RecipeForm'
+import MealDb from './components/admin/MealDbForm'
+import Notfound from './components/layout/NotFound'
 
 const App = () => (
   <div className="App">
@@ -36,7 +39,10 @@ const App = () => (
         <Route exact path='/signin' component = {SignIn}/>
         <Route exact path='/signup' component = {SignUp} /> 
         <PrivateRoute exact path='/user' component = {UserInfo} /> 
-        <PrivateRoute exact path='/tools' component = {Tools} /> 
+        <PrivateRoute exact path='/tools' component = {Tools} />
+        <PrivateRoute exact path='/tools/recipe' component = {RecipeForm} /> 
+        <PrivateRoute exact path='/tools/recipemealdb' component={MealDb} />
+        <Route component={Notfound}/>
       </Switch>
     </div>
     <div className="dropdown-divider"></div>

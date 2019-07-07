@@ -8,6 +8,7 @@ import Style from '../../pantrycook-features'
 
 const position = Style.position
 const form = Style.form
+const list = Style.list
 
 /**
  * Represents the Parent Component of Pantry, including the SearchBar
@@ -74,7 +75,9 @@ class PantrySearchBar extends React.Component {
                 </div>
                 <button style={form.button_space} className="btn btn-success" type="button" onClick={this.refreshClick.bind(this)}>Refresh Pantry</button>
                 <button className="btn btn-warning" type="button" onClick={this.navigateClick.bind(this)}>Edit Pantry</button>
-                <Pantry ingredients={ingredients} ></Pantry>
+                <div style={list.center}>
+                    <Pantry ingredients={ingredients} ></Pantry>
+                </div>
                 </div>
             </div>
         )

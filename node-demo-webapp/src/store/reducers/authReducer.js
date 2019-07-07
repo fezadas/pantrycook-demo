@@ -30,7 +30,8 @@ const authReducer = (state = initState, action) => {
         case LOGOUT:
             return {
                 ...state,
-                auth: false
+                auth: false,
+                loading:false
             }
         default :
             return state

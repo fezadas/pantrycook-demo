@@ -14,7 +14,8 @@ export default {
     saveItem,
     deleteTokens,
     getItem,
-    getAccessToken
+    getAccessToken,
+    getTokens //FIXME remove from here
 }
 
 export function isAuthenticated() {

@@ -14,19 +14,26 @@ class ShoppingListItem extends React.Component {
 
     render(){
         return (
+            <div key={this.props.shoppingListInfo.id}>
             <div className="col-sm">
-                <div className="card text-white bg-info mb-3" style = {card.size_12}>
-                <div className="card-header">{this.props.shoppingListInfo.name}</div>
-                <div className="card-body">
-                <i className="fas fa-clipboard-list fa-3x"></i>
+                <div className="card text-white bg-info mb-3" style={card.size_18}>
+                    <h5 className="card-title">
+                            {this.props.shoppingListInfo.name}
+                    </h5>
+                    <div className="card-body">
+                        <i className="fas fa-clipboard-list fa-3x"></i>
+                    </div>
+                    <button className="btn btn-primary" type="button" 
+                        onClick={this.navigateClick.bind(this)}>Details
+                    </button> 
                 </div>
-                <button className="btn btn-primary" type="button" onClick={this.navigateClick.bind(this)}>Details</button> 
-                </div>
+            </div>  
             </div>
         )
     }
 }     
 
+    
 const mapStateToProps = (state) => {
     return {
         res: state

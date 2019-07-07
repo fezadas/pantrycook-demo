@@ -16,13 +16,13 @@ class Tools extends React.Component {
     }
 
     render(){
-        return <RecipeList/>
+        return <RecipeList />
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-      getRecipes: () => dispatch(getRecipes()),
+      getRecipes: () => dispatch(getRecipes())
     }
 }
 
