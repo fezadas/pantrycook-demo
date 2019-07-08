@@ -1,7 +1,5 @@
 import CryptoJS from 'crypto-js'
 
-const password = process.env.LOCAL_STORAGE_PW
-
 const KEY_ACCESS_TOKEN = 'access_token'
 const KEY_EXPIRE_DATE = 'expire_date'
 const KEY_REFRESH_TOKEN = 'refresh_token'
@@ -72,10 +70,11 @@ function getAccessToken(refreshToken) {
 }
 
 function encryptToken(token){
-    return CryptoJS.AES.encrypt(token, password);
+    console.log(process.env)
+    return CryptoJS.AES.encrypt(token, process.env.REACT_APP_LOCAL_STORAGE_PW);
 }
 
 function decryptToken(token){
-    var decryptedBytes = CryptoJS.AES.decrypt(token,password)
+    var decryptedBytes = CryptoJS.AES.decrypt(token,process.env.REACT_APP_LOCAL_STORAGE_PW)
     return decryptedBytes.toString(CryptoJS.enc.Utf8);
 }

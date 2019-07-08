@@ -13,6 +13,8 @@ import configureStore from './store/configureStore'
 const history = createBrowserHistory()
 const store  = configureStore(history)
 const MOUNT_NODE = document.getElementById('root')
+const dotenv = require('dotenv');
+dotenv.config();
 
 ReactDOM.render(
     <Provider store={store}>
