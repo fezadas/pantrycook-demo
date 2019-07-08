@@ -1,6 +1,6 @@
 import CryptoJS from 'crypto-js'
 
-const password = 'default'
+const password = process.env.LOCAL_STORAGE_PW
 
 const KEY_ACCESS_TOKEN = 'access_token'
 const KEY_EXPIRE_DATE = 'expire_date'
