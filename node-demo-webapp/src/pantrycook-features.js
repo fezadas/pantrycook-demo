@@ -315,6 +315,9 @@ const style = {
     link: {
         pointer: {
             cursor:'pointer'
+        },
+        disable: {
+            pointerEvents:'none'
         }
     }
     

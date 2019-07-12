@@ -70,7 +70,6 @@ function getAccessToken(refreshToken) {
 }
 
 function encryptToken(token){
-    console.log(process.env)
     return CryptoJS.AES.encrypt(token, process.env.REACT_APP_LOCAL_STORAGE_PW);
 }
 
