@@ -38,7 +38,7 @@ const IngredientsList = ({ ingredients }) => {
             return(
             <li key={elem.id} style = {list.li_style} className="list-group-item d-flex justify-content-between align-items-center">
             {elem.name}
-            <span className="badge badge-primary badge-pill">{elem.recipeQuantity} {elem.unity}</span>
+            <span className="badge badge-primary badge-pill">{elem.quantity} {elem.unity}</span>
           </li>
         )})}
       </ul>
