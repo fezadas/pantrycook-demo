@@ -38,7 +38,7 @@ class PantryEditForm extends React.Component {
                 <div style={form.edit_box_position} className="input-group input-group-sm mb-3">
                 <div className="input-group-prepend">
                     <button 
-                     disabled={!this.state.cannotSaveChanges}
+                     disabled={this.state.cannotSaveChanges}
                      type="submit" className="btn btn-outline-secondary" id="button-addon1">Edit
                     </button>
                 </div>
